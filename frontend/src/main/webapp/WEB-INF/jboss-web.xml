@@ -1,5 +1,0 @@
-<?xml version="1.0" ?>
-<jboss-web>
-    <!-- Override context, otherwsie it would use "examples-0.0.1-SNAPSHOT" in the URL -->
-    <context-root>/</context-root>
-</jboss-web>
