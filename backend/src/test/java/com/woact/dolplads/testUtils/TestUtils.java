@@ -52,7 +52,7 @@ public class TestUtils {
     }
 
     public static User getValidUser() {
-        return new User("thomas", "dolplads", new Address("street", "1342", CountryEnum.Norway));
+        return new User("thomas", "dolplads", "userName", new Address("street", "1342", CountryEnum.Norway));
     }
 
     public static void setValidator(Validator validator) {

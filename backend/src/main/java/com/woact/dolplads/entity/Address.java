@@ -3,12 +3,14 @@ package com.woact.dolplads.entity;
 import com.woact.dolplads.constraints.Country;
 import com.woact.dolplads.enums.CountryEnum;
 
+import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 /**
  * Created by dolplads on 12/10/2016.
  */
+@Embeddable
 public class Address {
     private String street;
 
@@ -22,6 +24,9 @@ public class Address {
         this.street = street;
         this.post = post;
         this.countryEnum = countryEnum;
+    }
+
+    public Address() {
     }
 
     public String getStreet() {

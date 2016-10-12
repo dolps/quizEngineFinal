@@ -3,6 +3,7 @@ package com.woact.dolplads.entity;
 import com.woact.dolplads.testUtils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.validation.Validation;
