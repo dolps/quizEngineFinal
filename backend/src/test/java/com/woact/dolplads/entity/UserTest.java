@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 /**
  * Created by dolplads on 12/10/2016.
  * <p>
- * Testing constraints on user object
+ * Testing annotations on user object
  */
 public class UserTest {
     private ValidatorFactory validatorFactory;

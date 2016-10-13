@@ -1,4 +1,4 @@
-package com.woact.dolplads.constraints;
+package com.woact.dolplads.annotations;
 
 import com.woact.dolplads.entity.CountryList;
 import com.woact.dolplads.enums.CountryEnum;

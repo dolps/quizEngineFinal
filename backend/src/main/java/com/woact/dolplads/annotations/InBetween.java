@@ -1,4 +1,4 @@
-package com.woact.dolplads.constraints;
+package com.woact.dolplads.annotations;
 
 import lombok.extern.java.Log;
 
@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @ReportAsSingleViolation
 @Constraint(validatedBy = {InBetween.Validator.class})
 public @interface InBetween {
-    String message() default "{com.woact.dolplads.constraints.InBetween.message}";
+    String message() default "{com.woact.dolplads.annotations.InBetween.message}";
 
     Class<?>[] groups() default {};
 

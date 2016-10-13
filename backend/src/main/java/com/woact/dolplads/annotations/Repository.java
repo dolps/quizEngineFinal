@@ -1,4 +1,4 @@
-package com.woact.dolplads.constraints;
+package com.woact.dolplads.annotations;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Stereotype;

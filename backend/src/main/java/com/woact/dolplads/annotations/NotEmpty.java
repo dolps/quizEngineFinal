@@ -1,4 +1,4 @@
-package com.woact.dolplads.constraints;
+package com.woact.dolplads.annotations;
 
 import javax.validation.*;
 import javax.validation.constraints.NotNull;
@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 @ReportAsSingleViolation
 @Documented
 public @interface NotEmpty {
-    String message() default "{com.woact.dolplads.constraints.NotEmpty.message}";
+    String message() default "{com.woact.dolplads.annotations.NotEmpty.message}";
 
     Class<?>[] groups() default {};
 

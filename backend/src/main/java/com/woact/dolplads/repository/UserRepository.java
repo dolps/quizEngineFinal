@@ -1,9 +1,8 @@
 package com.woact.dolplads.repository;
 
-import com.woact.dolplads.constraints.Repository;
+import com.woact.dolplads.annotations.Repository;
 import com.woact.dolplads.entity.User;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -14,8 +13,6 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 @Repository
 public class UserRepository extends CrudRepository<Long, User> {
-
-
     public UserRepository() {
         super(User.class);
     }

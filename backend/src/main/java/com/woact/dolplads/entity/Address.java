@@ -1,6 +1,6 @@
 package com.woact.dolplads.entity;
 
-import com.woact.dolplads.constraints.Country;
+import com.woact.dolplads.annotations.Country;
 import com.woact.dolplads.enums.CountryEnum;
 
 import javax.persistence.Embeddable;
