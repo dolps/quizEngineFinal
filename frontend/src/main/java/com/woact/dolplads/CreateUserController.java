@@ -21,20 +21,29 @@ public class CreateUserController {
     private UserService userService;
     @Inject
     private LoginController loginController;
-    @Inject
     private User user;
     private String confirmPassword;
 
+    @PostConstruct
+    public void init() {
+        user = new User();
+    }
+
 
     public String create() {
-        logger.log(Level.INFO, user.toString());
-        if (user.getPasswordHash().equals(confirmPassword)) {
+        if (!existingUser() && user.getPasswordHash().equals(confirmPassword)) {
             User persisted = userService.save(user);
             persisted.setLoggedIn(true);
             loginController.setSessionUser(persisted);
+
+            return "home.jsf";
         }
 
-        return "home.xhtml";
+        return "newUser.jsf";
+    }
+
+    private boolean existingUser() {
+        return userService.findByUserName(user.getUserName()) != null;
     }
 
 

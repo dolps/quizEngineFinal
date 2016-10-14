@@ -2,6 +2,8 @@ package com.woact.dolplads.entity;
 
 import com.woact.dolplads.annotations.Country;
 import com.woact.dolplads.enums.CountryEnum;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -11,6 +13,8 @@ import javax.persistence.Enumerated;
  * Created by dolplads on 12/10/2016.
  */
 @Embeddable
+@Getter
+@Setter
 public class Address {
     private String street;
 
@@ -27,29 +31,5 @@ public class Address {
     }
 
     public Address() {
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post;
-    }
-
-    public CountryEnum getCountryEnum() {
-        return countryEnum;
-    }
-
-    public void setCountryEnum(CountryEnum countryEnum) {
-        this.countryEnum = countryEnum;
     }
 }

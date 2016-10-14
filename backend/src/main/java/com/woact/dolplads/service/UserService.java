@@ -4,8 +4,11 @@ import com.woact.dolplads.entity.User;
 import com.woact.dolplads.repository.CRUD;
 import com.woact.dolplads.repository.UserRepository;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -14,35 +17,39 @@ import java.util.List;
  */
 @Stateless
 public class UserService {
-    @Inject
+    @EJB
     protected UserRepository userRepository;
 
     public User save(@NotNull User user) {
-        String salt = DigestUtil.getSalt();
-        String hash = DigestUtil.computeHash(user.getPasswordHash(), salt);
-
         User persisted = userRepository.findByUserName(user.getUserName());
 
         if (persisted == null) {
+            String salt = DigestUtil.getSalt();
+            String hash = DigestUtil.computeHash(user.getPasswordHash(), salt);
+
             user.setPasswordHash(hash);
             user.setSalt(salt);
+
+            return userRepository.save(user);
         }
-        return userRepository.save(user);
+
+        return null;
     }
 
     public User login(@NotNull String userName, @NotNull String password) {
         User persisted = userRepository.findByUserName(userName);
 
-        if (persisted == null) {
-            DigestUtil.computeHash(password, DigestUtil.getSalt());
-            return null;
-        }
-
-        String computedHash = DigestUtil.computeHash(password, persisted.getSalt());
-        if (persisted.getPasswordHash().equals(computedHash)) {
-            return persisted;
+        if (persisted != null) {
+            String computedHash = DigestUtil.computeHash(password, persisted.getSalt());
+            if (persisted.getPasswordHash().equals(computedHash)) {
+                return persisted;
+            }
         }
 
         return null;
+    }
+
+    public User findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 }

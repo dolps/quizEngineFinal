@@ -1,10 +1,14 @@
 package com.woact.dolplads.entity;
 
 import com.woact.dolplads.annotations.NotEmpty;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -16,6 +20,9 @@ import javax.validation.constraints.Size;
         @NamedQuery(name = User.FIND_BY_CREDENTIALS,
                 query = "select u from User u where u.userName = :userName and u.passwordHash = :password")
 })
+
+@Getter
+@Setter
 @Entity
 public class User {
     public static final String FIND_BY_USERNAME = "user_find_by_username";
@@ -24,29 +31,33 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 3, max = 40)
+    @Size(max = 40)
     @NotEmpty
     private String name;
 
-    @Size(min = 3, max = 40)
+    @Size(max = 40)
     @NotEmpty
     private String surName;
 
+    @Pattern(regexp = "[A-Za-z0-9]{1,32}")
     @Column(unique = true)
-    @Size(min = 3, max = 12)
+    @Size(max = 12)
     @NotEmpty
     private String userName;
 
-    @Inject
+    @Valid
     @NotNull
     @Embedded
     private Address address;
 
+    @NotEmpty
     private String passwordHash;
+    @NotEmpty
     private String salt;
+    @Transient
     private boolean loggedIn;
 
-    protected User() {
+    public User() {
     }
 
     public User(String name, String surName, String userName, Address address) {
@@ -54,70 +65,6 @@ public class User {
         this.surName = surName;
         this.userName = userName;
         this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurName() {
-        return surName;
-    }
-
-    public void setSurName(String surName) {
-        this.surName = surName;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
-    }
-
-    public boolean isLoggedIn() {
-        return loggedIn;
     }
 
     @Override

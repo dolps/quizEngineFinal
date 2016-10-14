@@ -3,6 +3,7 @@ package com.woact.dolplads.repository;
 import com.woact.dolplads.annotations.Repository;
 import com.woact.dolplads.entity.User;
 
+import javax.ejb.Stateless;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * manages userspesific DB handling
  */
 @SuppressWarnings("unchecked")
-@Repository
+@Stateless
 public class UserRepository extends CrudRepository<Long, User> {
     public UserRepository() {
         super(User.class);

@@ -1,9 +1,9 @@
 package com.woact.dolplads.entity;
 
+import com.woact.dolplads.enums.CountryEnum;
 import com.woact.dolplads.testUtils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.validation.Validation;
@@ -46,10 +46,10 @@ public class UserTest {
         User user = getValidUser();
         String field = "name";
 
-        constraintTest(user, 1, field, null);
-        constraintTest(user, 2, field, "");
-        constraintTest(user, 1, field, "   ");
-        constraintTest(user, 1, field, getLongString(100));
+        constraintTest(1, user, field, null);
+        constraintTest(1, user, field, "");
+        constraintTest(1, user, field, "   ");
+        constraintTest(1, user, field, getLongString(100));
     }
 
     @Test
@@ -57,28 +57,31 @@ public class UserTest {
         User user = getValidUser();
         String field = "surName";
 
-        constraintTest(user, 1, field, null);
-        constraintTest(user, 2, field, "");
-        constraintTest(user, 1, field, "   ");
-        constraintTest(user, 1, field, getLongString(100));
+        constraintTest(1, user, field, null);
+        constraintTest(1, user, field, "");
+        constraintTest(1, user, field, "   ");
+        constraintTest(1, user, field, getLongString(100));
     }
 
     @Test
     public void setAddress() throws Exception {
         User user = getValidUser();
-        String field = "address";
+        Address address = user.getAddress();
 
-        constraintTest(user, 1, field, null);
+        String field = "address";
+        constraintTest(1, user, field, null);
+        constraintTest(1, address, "countryEnum", null);
+        constraintTest(1, address, "countryEnum", CountryEnum.England);
     }
 
-    private void constraintTest(User userInstance, int nOfViolations, String field, Object value) throws Exception {
-        Field declared = User.class.getDeclaredField(field);
+    private void constraintTest(int nOfViolations, Object entity, String field, Object value) throws Exception {
+        Field declared = entity.getClass().getDeclaredField(field);
 
         declared.setAccessible(true);
-        declared.set(userInstance, value);
+        declared.set(entity, value);
         declared.setAccessible(false);
 
-        assertEquals(nOfViolations, violations(userInstance));
+        assertEquals(nOfViolations, violations(entity, field));
     }
 
     private String getLongString(int length) {

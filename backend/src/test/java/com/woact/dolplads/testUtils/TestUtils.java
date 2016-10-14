@@ -18,12 +18,12 @@ public class TestUtils {
     private static Validator validator;
 
     /**
-     * @param user
+     * @param entityInstance
      * @param property
      * @return the number of failed constraint for a given property
      */
-    public static int violations(User user, String property) {
-        Set<ConstraintViolation<Object>> violations = validator.validateProperty(user, property);
+    public static int violations(Object entityInstance, String property) {
+        Set<ConstraintViolation<Object>> violations = validator.validateProperty(entityInstance, property);
         logViolations(violations);
 
         return violations.size();
@@ -38,21 +38,25 @@ public class TestUtils {
     /**
      * Validates all attributes for a given object
      *
-     * @param user
+     * @param entityInstance
      * @return number of violations
      */
-    public static int violations(Object user) {
+    public static int violations(Object entityInstance) {
         if (validator == null) {
             throw new RuntimeException("validator == null, set validator");
         }
-        Set<ConstraintViolation<Object>> violations = validator.validate(user);
+        Set<ConstraintViolation<Object>> violations = validator.validate(entityInstance);
         logViolations(violations);
 
         return violations.size();
     }
 
     public static User getValidUser() {
-        return new User("thomas", "dolplads", "userName", new Address("street", "1342", CountryEnum.Norway));
+        User u = new User("thomas", "dolplads", "userName", new Address("street", "1342", CountryEnum.Norway));
+        u.setPasswordHash("hashedpassword");
+        u.setSalt("aSalts");
+
+        return u;
     }
 
     public static void setValidator(Validator validator) {
