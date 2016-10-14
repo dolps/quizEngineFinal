@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class UserService {
     @EJB
     protected UserRepository userRepository;
 
-    public User save(@NotNull User user) {
+    public User save(User user) {
         User persisted = userRepository.findByUserName(user.getUserName());
 
         if (persisted == null) {

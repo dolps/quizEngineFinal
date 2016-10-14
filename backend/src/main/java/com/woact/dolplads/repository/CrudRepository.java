@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public abstract class CrudRepository<E, T> implements CRUD<E, T> {
     }
 
     @Override
-    public T save(T entity) {
+    public T save(@Valid @NotNull T entity) {
         entityManager.persist(entity);
 
         return entity;

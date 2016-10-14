@@ -2,6 +2,7 @@ package com.woact.dolplads.entity;
 
 import com.woact.dolplads.enums.CountryEnum;
 import com.woact.dolplads.testUtils.TestUtils;
+import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
 
 import static com.woact.dolplads.testUtils.TestUtils.getValidUser;
 import static com.woact.dolplads.testUtils.TestUtils.violations;
@@ -21,6 +23,7 @@ import static org.junit.Assert.*;
  * <p>
  * Testing annotations on user object
  */
+@Log
 public class UserTest {
     private ValidatorFactory validatorFactory;
 

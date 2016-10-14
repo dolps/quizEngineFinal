@@ -1,5 +1,7 @@
 package com.woact.dolplads;
 
+import com.woact.dolplads.annotations.NotEmpty;
+import com.woact.dolplads.entity.Address;
 import com.woact.dolplads.entity.User;
 import com.woact.dolplads.service.UserService;
 
@@ -22,6 +24,7 @@ public class CreateUserController {
     @Inject
     private LoginController loginController;
     private User user;
+    @NotEmpty
     private String confirmPassword;
 
     @PostConstruct
@@ -31,14 +34,16 @@ public class CreateUserController {
 
 
     public String create() {
-        if (user.getPasswordHash().equals(confirmPassword)) {
-            User persisted = userService.save(user);
-            if (persisted != null) {
-                persisted.setLoggedIn(true);
-                loginController.setSessionUser(persisted);
+        if (!user.getPasswordHash().equals(confirmPassword)) {
+            return "newUser.jsf";
+        }
 
-                return "home.jsf";
-            }
+        User persisted = userService.save(user);
+        if (persisted != null) {
+            persisted.setLoggedIn(true);
+            loginController.setSessionUser(persisted);
+
+            return "home.jsf";
         }
 
         return "newUser.jsf";

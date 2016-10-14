@@ -12,19 +12,21 @@
     <artifactId>report</artifactId>
     <packaging>jar</packaging>
 
+
     <dependencies>
         <dependency>
-            <groupId>com.dolplads</groupId>
+            <groupId>com.woact.dolplads</groupId>
             <artifactId>backend</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.dolplads</groupId>
+            <groupId>com.woact.dolplads</groupId>
             <artifactId>frontend</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>

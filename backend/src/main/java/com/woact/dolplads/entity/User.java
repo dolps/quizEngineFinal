@@ -1,10 +1,10 @@
 package com.woact.dolplads.entity;
 
+import com.woact.dolplads.annotations.EqualTo;
 import com.woact.dolplads.annotations.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.inject.Inject;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -20,7 +20,6 @@ import javax.validation.constraints.Size;
         @NamedQuery(name = User.FIND_BY_CREDENTIALS,
                 query = "select u from User u where u.userName = :userName and u.passwordHash = :password")
 })
-
 @Getter
 @Setter
 @Entity
@@ -52,12 +51,14 @@ public class User {
 
     @NotEmpty
     private String passwordHash;
+
     @NotEmpty
     private String salt;
     @Transient
     private boolean loggedIn;
 
     public User() {
+        address = new Address();
     }
 
     public User(String name, String surName, String userName, Address address) {
