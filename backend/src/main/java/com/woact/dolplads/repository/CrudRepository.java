@@ -31,7 +31,7 @@ public abstract class CrudRepository<E, T> implements CRUD<E, T> {
         entityManager.remove(update(entity));
     }
 
-    private T update(T entity) {
+    public T update(T entity) {
         return entityManager.merge(entity);
     }
 

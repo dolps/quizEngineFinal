@@ -31,21 +31,18 @@ public class CreateUserController {
 
 
     public String create() {
-        if (!existingUser() && user.getPasswordHash().equals(confirmPassword)) {
+        if (user.getPasswordHash().equals(confirmPassword)) {
             User persisted = userService.save(user);
-            persisted.setLoggedIn(true);
-            loginController.setSessionUser(persisted);
+            if (persisted != null) {
+                persisted.setLoggedIn(true);
+                loginController.setSessionUser(persisted);
 
-            return "home.jsf";
+                return "home.jsf";
+            }
         }
 
         return "newUser.jsf";
     }
-
-    private boolean existingUser() {
-        return userService.findByUserName(user.getUserName()) != null;
-    }
-
 
     public User getUser() {
         return user;
