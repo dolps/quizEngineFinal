@@ -1,5 +1,6 @@
 package pages;
 
+import com.woact.dolplads.entity.Address;
 import com.woact.dolplads.entity.User;
 import com.woact.dolplads.enums.CountryEnum;
 import org.openqa.selenium.By;
@@ -29,18 +30,21 @@ public class CreateUserPageObject extends PageObject {
     }
 
     public User createUser(String userName, String password, String confirmPassword,
-                           String firstName, String middleName, String lastName, CountryEnum country) {
+                           String firstName, String middleName, String lastName, CountryEnum country) throws InterruptedException {
         String form = "createForm:";
         getElement(form + "userName").sendKeys(userName);
         getElement(form + "password").sendKeys(password);
         getElement(form + "confirmPassword").sendKeys(confirmPassword);
         getElement(form + "firstName").sendKeys(firstName);
-        getElement(form + "middleName").sendKeys(middleName);
         getElement(form + "lastName").sendKeys(lastName);
         getElement(form + "save").click();
 
+
         // TODO: 12/10/2016 fix this just for compiling now
-        return new User("", "", "username", null);
+        User u = new User(firstName, lastName, userName, new Address("street", "post", country));
+        u.setPasswordHash(confirmPassword);
+
+        return u;
     }
 
     private WebElement getElement(String element) {

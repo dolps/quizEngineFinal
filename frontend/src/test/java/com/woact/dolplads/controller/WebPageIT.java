@@ -19,7 +19,6 @@ import static org.junit.Assert.*;
 /**
  * Created by dolplads on 01/10/16.
  */
-@Ignore
 @Log
 public class WebPageIT extends SeleniumTestBase {
     private HomePageObject homePageObject;
@@ -91,7 +90,7 @@ public class WebPageIT extends SeleniumTestBase {
         assertTrue(createUserPage.isOnPage());
 
         createUserPage
-                .createUser("userName", "password", "confirmPassword", "firstName", "middleName", "lastName", CountryEnum.Norway);
+                .createUser("userName" + getUniqueId(), "password", "confirmPassword", "firstName", "middleName", "lastName", CountryEnum.Norway);
 
         assertTrue(createUserPage.isOnPage());
     }
@@ -103,11 +102,9 @@ public class WebPageIT extends SeleniumTestBase {
 
         CreateUserPageObject createUserPageObject = loginPageObject.toCreate();
         assertTrue(createUserPageObject.isOnPage());
-
         String unique = getUniqueId();
         createUserPageObject.createUser(unique, "password", "password", "first", "second", "last", CountryEnum.Norway);
         assertTrue(homePageObject.isOnPage());
-        Thread.sleep(3000);
         assertTrue(homePageObject.isLoggedIn(unique));
     }
 
@@ -132,7 +129,7 @@ public class WebPageIT extends SeleniumTestBase {
         assertTrue(homePageObject.isLoggedIn(u.getUserName()));
     }
 
-    private User createUniqueUserThenLogIn() {
+    private User createUniqueUserThenLogIn() throws InterruptedException {
         LoginPageObject loginPageObject = homePageObject.toLogin();
         assertTrue(loginPageObject.isOnPage());
 

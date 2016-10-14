@@ -14,7 +14,7 @@ import java.util.logging.Level;
  */
 @Log
 public class HomePageObject extends PageObject {
-    private final String title = "Event List Home Page";
+    private final String title = "Home Page";
 
     public HomePageObject(WebDriver driver) {
         super(driver);

@@ -40,7 +40,7 @@ public class User {
 
     @Pattern(regexp = "[A-Za-z0-9]{1,32}")
     @Column(unique = true)
-    @Size(max = 12)
+    @Size(max = 25)
     @NotEmpty
     private String userName;
 
