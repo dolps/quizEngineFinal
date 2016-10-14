@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 /**
  * Created by dolplads on 12/10/2016.
  */
-@Singleton
 public class LoggerInjector implements Serializable {
 
     @Produces
