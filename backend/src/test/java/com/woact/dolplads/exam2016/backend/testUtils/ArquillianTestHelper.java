@@ -1,4 +1,4 @@
-package com.woact.dolplads.testUtils;
+package com.woact.dolplads.exam2016.backend.testUtils;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -15,7 +15,7 @@ public abstract class ArquillianTestHelper {
     @Deployment
     public static JavaArchive createDeployment() {
         JavaArchive war = ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, "com.woact.dolplads")
+                .addPackages(true, "com.woact.dolplads.exam2016")
                 .addPackages(true, "org.apache.commons.codec")
                 .addAsResource("META-INF/persistence.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");

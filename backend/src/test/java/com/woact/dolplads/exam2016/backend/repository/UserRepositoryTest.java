@@ -1,8 +1,8 @@
-package com.woact.dolplads.repository;
+package com.woact.dolplads.exam2016.backend.repository;
 
-import com.woact.dolplads.entity.User;
-import com.woact.dolplads.testUtils.ArquillianTestHelper;
-import com.woact.dolplads.testUtils.DeleterEJB;
+import com.woact.dolplads.exam2016.backend.entity.User;
+import com.woact.dolplads.exam2016.backend.testUtils.ArquillianTestHelper;
+import com.woact.dolplads.exam2016.backend.testUtils.DeleterEJB;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.woact.dolplads.testUtils.TestUtils.getValidUser;
+import static com.woact.dolplads.exam2016.backend.testUtils.TestUtils.getValidUser;
 import static org.junit.Assert.*;
 
 /**

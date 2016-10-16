@@ -1,4 +1,4 @@
-package com.woact.dolplads.repository;
+package com.woact.dolplads.exam2016.backend.repository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

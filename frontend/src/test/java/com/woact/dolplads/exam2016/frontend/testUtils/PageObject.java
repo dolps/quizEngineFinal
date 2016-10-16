@@ -1,4 +1,4 @@
-package testUtils;
+package com.woact.dolplads.exam2016.frontend.testUtils;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

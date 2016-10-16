@@ -1,7 +1,7 @@
-package com.woact.dolplads.entity;
+package com.woact.dolplads.exam2016.backend.entity;
 
-import com.woact.dolplads.annotations.Country;
-import com.woact.dolplads.enums.CountryEnum;
+import com.woact.dolplads.exam2016.backend.annotations.Country;
+import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
 import lombok.Getter;
 import lombok.Setter;
 

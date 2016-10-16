@@ -1,6 +1,5 @@
-package com.woact.dolplads.annotations;
+package com.woact.dolplads.exam2016.backend.annotations;
 
-import javax.ejb.Singleton;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import java.io.Serializable;

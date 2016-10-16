@@ -1,19 +1,15 @@
-package testUtils;
+package com.woact.dolplads.exam2016.frontend.testUtils;
 
 import lombok.extern.java.Log;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;

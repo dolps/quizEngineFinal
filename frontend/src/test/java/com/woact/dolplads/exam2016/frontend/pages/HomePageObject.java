@@ -1,10 +1,10 @@
-package pages;
+package com.woact.dolplads.exam2016.frontend.pages;
 
 import lombok.extern.java.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import testUtils.PageObject;
+import com.woact.dolplads.exam2016.frontend.testUtils.PageObject;
 
 import java.util.List;
 import java.util.logging.Level;

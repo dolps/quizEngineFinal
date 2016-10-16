@@ -1,18 +1,12 @@
-package com.woact.dolplads.service;
+package com.woact.dolplads.exam2016.backend.service;
 
-import com.woact.dolplads.entity.User;
-import com.woact.dolplads.injector.DolpLogger;
-import com.woact.dolplads.repository.CRUD;
-import com.woact.dolplads.repository.UserRepository;
+import com.woact.dolplads.exam2016.backend.entity.User;
+import com.woact.dolplads.exam2016.backend.repository.UserRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**

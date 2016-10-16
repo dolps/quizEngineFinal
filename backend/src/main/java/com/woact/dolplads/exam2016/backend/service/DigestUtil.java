@@ -1,4 +1,4 @@
-package com.woact.dolplads.service;
+package com.woact.dolplads.exam2016.backend.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

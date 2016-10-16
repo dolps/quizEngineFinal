@@ -1,16 +1,15 @@
-package com.woact.dolplads.controller;
+package com.woact.dolplads.exam2016.frontend;
 
-import com.woact.dolplads.entity.User;
-import com.woact.dolplads.enums.CountryEnum;
+import com.woact.dolplads.exam2016.backend.entity.User;
+import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
 import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import pages.CreateUserPageObject;
-import pages.HomePageObject;
-import pages.LoginPageObject;
-import testUtils.SeleniumTestBase;
+import com.woact.dolplads.exam2016.frontend.pages.CreateUserPageObject;
+import com.woact.dolplads.exam2016.frontend.pages.HomePageObject;
+import com.woact.dolplads.exam2016.frontend.pages.LoginPageObject;
+import com.woact.dolplads.exam2016.frontend.testUtils.SeleniumTestBase;
 
 import java.util.concurrent.atomic.AtomicLong;
 

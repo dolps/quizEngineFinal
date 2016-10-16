@@ -1,7 +1,7 @@
-package com.woact.dolplads.annotations;
+package com.woact.dolplads.exam2016.backend.annotations;
 
-import com.woact.dolplads.entity.CountryList;
-import com.woact.dolplads.enums.CountryEnum;
+import com.woact.dolplads.exam2016.backend.entity.CountryList;
+import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
 
 import javax.validation.*;
 import javax.validation.constraints.NotNull;

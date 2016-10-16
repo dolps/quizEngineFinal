@@ -1,4 +1,4 @@
-package com.woact.dolplads.repository;
+package com.woact.dolplads.exam2016.backend.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

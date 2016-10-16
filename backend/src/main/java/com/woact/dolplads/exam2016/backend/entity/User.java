@@ -1,7 +1,6 @@
-package com.woact.dolplads.entity;
+package com.woact.dolplads.exam2016.backend.entity;
 
-import com.woact.dolplads.annotations.EqualTo;
-import com.woact.dolplads.annotations.NotEmpty;
+import com.woact.dolplads.exam2016.backend.annotations.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,9 +1,5 @@
-package com.woact.dolplads.injector;
+package com.woact.dolplads.exam2016.backend.injector;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.Stereotype;
-import javax.inject.Qualifier;
 import java.lang.annotation.*;
 
 /**

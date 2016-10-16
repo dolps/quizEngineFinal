@@ -1,12 +1,12 @@
-package pages;
+package com.woact.dolplads.exam2016.frontend.pages;
 
-import com.woact.dolplads.entity.Address;
-import com.woact.dolplads.entity.User;
-import com.woact.dolplads.enums.CountryEnum;
+import com.woact.dolplads.exam2016.backend.entity.Address;
+import com.woact.dolplads.exam2016.backend.entity.User;
+import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import testUtils.PageObject;
+import com.woact.dolplads.exam2016.frontend.testUtils.PageObject;
 
 /**
  * Created by dolplads on 02/10/16.

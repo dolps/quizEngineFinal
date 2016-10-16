@@ -1,4 +1,4 @@
-package com.woact.dolplads.annotations;
+package com.woact.dolplads.exam2016.backend.annotations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,4 +1,4 @@
-package com.woact.dolplads.exam2016.backend;
+package com.woact.dolplads.exam2016.frontend.controller;
 
 import com.woact.dolplads.exam2016.backend.annotations.NotEmpty;
 import com.woact.dolplads.exam2016.backend.entity.User;

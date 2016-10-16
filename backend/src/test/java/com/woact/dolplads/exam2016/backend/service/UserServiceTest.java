@@ -1,22 +1,16 @@
-package com.woact.dolplads.service;
+package com.woact.dolplads.exam2016.backend.service;
 
-import com.woact.dolplads.entity.Address;
-import com.woact.dolplads.entity.User;
-import com.woact.dolplads.enums.CountryEnum;
-import com.woact.dolplads.injector.DolpLogger;
-import com.woact.dolplads.testUtils.ArquillianTestHelper;
-import com.woact.dolplads.testUtils.DeleterEJB;
+import com.woact.dolplads.exam2016.backend.entity.Address;
+import com.woact.dolplads.exam2016.backend.entity.User;
+import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
+import com.woact.dolplads.exam2016.backend.testUtils.ArquillianTestHelper;
+import com.woact.dolplads.exam2016.backend.testUtils.DeleterEJB;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import java.util.logging.Level;

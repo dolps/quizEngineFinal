@@ -1,7 +1,6 @@
-package com.woact.dolplads.repository;
+package com.woact.dolplads.exam2016.backend.repository;
 
-import com.woact.dolplads.annotations.Repository;
-import com.woact.dolplads.entity.User;
+import com.woact.dolplads.exam2016.backend.entity.User;
 
 import javax.ejb.Stateless;
 import java.util.List;
