@@ -1,8 +1,6 @@
-package com.woact.dolplads;
+package com.woact.dolplads.exam2016.backend;
 
-import com.woact.dolplads.annotations.NotEmpty;
-import lombok.Getter;
-import lombok.Setter;
+import com.woact.dolplads.exam2016.backend.annotations.NotEmpty;
 
 import javax.enterprise.inject.Model;
 import java.io.Serializable;

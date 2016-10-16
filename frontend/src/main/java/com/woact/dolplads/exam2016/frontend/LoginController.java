@@ -1,16 +1,13 @@
-package com.woact.dolplads;
+package com.woact.dolplads.exam2016.backend;
 
-import com.woact.dolplads.entity.User;
-import com.woact.dolplads.service.UserService;
+import com.woact.dolplads.exam2016.backend.entity.User;
+import com.woact.dolplads.exam2016.backend.service.UserService;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by dolplads on 12/10/2016.
