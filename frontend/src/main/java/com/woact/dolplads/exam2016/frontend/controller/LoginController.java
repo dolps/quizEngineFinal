@@ -1,7 +1,7 @@
 package com.woact.dolplads.exam2016.frontend.controller;
 
 import com.woact.dolplads.exam2016.backend.entity.User;
-import com.woact.dolplads.exam2016.backend.service.UserService;
+import com.woact.dolplads.exam2016.backend.service.UserEJB;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -17,13 +17,13 @@ import java.io.Serializable;
 public class LoginController implements Serializable {
     private User sessionUser;
     @EJB
-    private UserService userService;
+    private UserEJB userEJB;
     @Inject
     private CredentialsController credentials;
 
 
     public String logIn() {
-        User user = userService.login(credentials.getUserName(), credentials.getPassword());
+        User user = userEJB.login(credentials.getUserName(), credentials.getPassword());
 
         if (user != null) {
             sessionUser = user;

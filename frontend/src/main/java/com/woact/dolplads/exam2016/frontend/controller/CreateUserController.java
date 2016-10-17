@@ -2,7 +2,7 @@ package com.woact.dolplads.exam2016.frontend.controller;
 
 import com.woact.dolplads.exam2016.backend.annotations.NotEmpty;
 import com.woact.dolplads.exam2016.backend.entity.User;
-import com.woact.dolplads.exam2016.backend.service.UserService;
+import com.woact.dolplads.exam2016.backend.service.UserEJB;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -18,7 +18,7 @@ public class CreateUserController {
     @Inject
     private Logger logger;
     @EJB
-    private UserService userService;
+    private UserEJB userEJB;
     @Inject
     private LoginController loginController;
     private User user;
@@ -31,12 +31,13 @@ public class CreateUserController {
     }
 
 
+
     public String create() {
         if (!user.getPasswordHash().equals(confirmPassword)) {
             return "newUser.jsf";
         }
 
-        User persisted = userService.save(user);
+        User persisted = userEJB.save(user);
         if (persisted != null) {
             persisted.setLoggedIn(true);
             loginController.setSessionUser(persisted);

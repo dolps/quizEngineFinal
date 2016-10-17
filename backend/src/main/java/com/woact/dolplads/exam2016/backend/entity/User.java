@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * Created by dolplads on 12/10/2016.
@@ -25,59 +26,50 @@ import javax.validation.constraints.Size;
 public class User {
     public static final String FIND_BY_USERNAME = "user_find_by_username";
     public static final String FIND_BY_CREDENTIALS = "user_find_by_credentials";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Size(max = 40)
-    @NotEmpty
-    private String name;
-
-    @Size(max = 40)
-    @NotEmpty
-    private String surName;
-
     @Pattern(regexp = "[A-Za-z0-9]{1,32}")
-    @Column(unique = true)
+    @Column(unique = true, updatable = false) // !updateable == so we dont loose consistency in DB
     @Size(max = 25)
     @NotEmpty
     private String userName;
 
-    @Valid
-    @NotNull
-    @Embedded
-    private Address address;
+    @Size(max = 125)
+    @NotEmpty
+    private String firstName;
+
+    @NotNull // TODO: 17/10/2016 check if necassary
+    @Size(max = 125)
+    private String middleName;
+
+    @Size(max = 125)
+    @NotEmpty
+    private String lastName;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registrationDate;
 
     @NotEmpty
     private String passwordHash;
 
     @NotEmpty
     private String salt;
+
     @Transient
     private boolean loggedIn;
 
     public User() {
-        address = new Address();
     }
 
-    public User(String name, String surName, String userName, Address address) {
-        this.name = name;
-        this.surName = surName;
+    public User(String userName, String firstName, String middleName, String lastName) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
         this.userName = userName;
-        this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surName='" + surName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", address=" + address +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", salt='" + salt + '\'' +
-                ", loggedIn=" + loggedIn +
-                '}';
+    @PrePersist
+    public void preparePersist() {
+        this.registrationDate = new Date();
     }
 }

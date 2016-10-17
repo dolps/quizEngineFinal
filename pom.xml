@@ -166,7 +166,8 @@
     </dependencyManagement>
 
     <build>
-        <finalName>exam_example</finalName>
+        <!-- will override default url -->
+        <finalName>pg5100_exam</finalName>
 
         <pluginManagement>
             <plugins>

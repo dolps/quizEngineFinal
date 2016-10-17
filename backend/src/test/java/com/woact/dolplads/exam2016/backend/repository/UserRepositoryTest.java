@@ -9,13 +9,11 @@ import org.junit.Test;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
-import javax.validation.Validator;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.woact.dolplads.exam2016.backend.testUtils.TestUtils.getValidUser;
 import static org.junit.Assert.*;
 
 /**
@@ -30,22 +28,13 @@ public class UserRepositoryTest extends ArquillianTestHelper {
     @EJB
     private UserRepository userRepository;
     @Inject
-    private Validator validator;
-    @Inject
-    private Logger log;
+    private Logger logger;
 
     @Before
     @After
     public void restoreDB() throws Exception {
-        log.log(Level.INFO, "restoring DB");
+        logger.log(Level.INFO, "restoring DB");
         deleterEJB.deleteEntities(User.class);
-    }
-
-    @Test
-    public void createValidUser() {
-        User user = getValidUser();
-
-        assertEquals("should give no errors", 0, validator.validate(user).size());
     }
 
     @Test
@@ -55,7 +44,6 @@ public class UserRepositoryTest extends ArquillianTestHelper {
         User user = getValidUser();
         user = userRepository.save(user);
 
-        assertNotNull(user.getId());
         assertEquals(size + 1, userRepository.findAll().size());
     }
 
@@ -64,9 +52,8 @@ public class UserRepositoryTest extends ArquillianTestHelper {
         User user = getValidUser();
         user = userRepository.save(user);
 
-        assertNotNull(user.getId());
-        assertNotNull(userRepository.findById(user.getId()));
-        assertNull(userRepository.findById(100L));
+        assertNotNull(userRepository.findById(user.getUserName()));
+        assertNull(userRepository.findById("nonExisting"));
     }
 
     @Test
@@ -76,12 +63,11 @@ public class UserRepositoryTest extends ArquillianTestHelper {
         User user = getValidUser();
         user = userRepository.save(user);
 
-        assertNotNull(user.getId());
         assertEquals(size + 1, userRepository.findAll().size());
 
         userRepository.remove(user);
 
-        assertNull(userRepository.findById(user.getId()));
+        assertNull(userRepository.findById(user.getUserName()));
         assertEquals(size, userRepository.findAll().size());
     }
 
@@ -91,13 +77,13 @@ public class UserRepositoryTest extends ArquillianTestHelper {
         user.setUserName("thomas");
         user = userRepository.save(user);
 
-        user = userRepository.findById(user.getId());
+        user = userRepository.findById(user.getUserName());
         assertEquals("thomas", user.getUserName());
 
         user.setUserName("newName");
         user = userRepository.update(user);
 
-        user = userRepository.findById(user.getId());
+        user = userRepository.findById(user.getUserName());
         assertEquals("newName", user.getUserName());
     }
 
@@ -116,17 +102,11 @@ public class UserRepositoryTest extends ArquillianTestHelper {
         assertEquals(2, users.size());
     }
 
-    @Test
-    public void findByUserName() throws Exception {
-        User user1 = getValidUser();
+    public User getValidUser() {
+        User u = new User("userName", "user", "us", "userson");
+        u.setPasswordHash("hashedpassword");
+        u.setSalt("aSalts");
 
-        user1 = userRepository.save(user1);
-        assertTrue(user1.getId() != null);
-
-        User found = userRepository.findByUserName(user1.getUserName());
-        assertEquals(found.getId(), user1.getId());
-
-        found = userRepository.findByUserName("nonexisting");
-        assertTrue(found == null);
+        return u;
     }
 }

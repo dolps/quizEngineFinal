@@ -51,14 +51,6 @@ public class TestUtils {
         return violations.size();
     }
 
-    public static User getValidUser() {
-        User u = new User("thomas", "dolplads", "userName", new Address("street", "1342", CountryEnum.Norway));
-        u.setPasswordHash("hashedpassword");
-        u.setSalt("aSalts");
-
-        return u;
-    }
-
     public static void setValidator(Validator validator) {
         TestUtils.validator = validator;
     }

@@ -12,10 +12,11 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked")
 @Stateless
-public class UserRepository extends CrudRepository<Long, User> {
+public class UserRepository extends CrudRepository<String, User> {
     public UserRepository() {
         super(User.class);
     }
+
 
     /**
      * looks up a user by its username
@@ -23,6 +24,7 @@ public class UserRepository extends CrudRepository<Long, User> {
      * @param userName must be a non null String
      * @return if found
      */
+    /*
     public User findByUserName(String userName) {
         List<User> users = entityManager.createNamedQuery(User.FIND_BY_USERNAME)
                 .setParameter("userName", userName)
@@ -32,4 +34,5 @@ public class UserRepository extends CrudRepository<Long, User> {
         }
         return users.get(0);
     }
+    */
 }

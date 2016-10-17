@@ -5,6 +5,7 @@ import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
 import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import com.woact.dolplads.exam2016.frontend.pages.CreateUserPageObject;
 import com.woact.dolplads.exam2016.frontend.pages.HomePageObject;
@@ -18,6 +19,7 @@ import static org.junit.Assert.*;
 /**
  * Created by dolplads on 01/10/16.
  */
+@Ignore
 @Log
 public class WebPageIT extends SeleniumTestBase {
     private HomePageObject homePageObject;

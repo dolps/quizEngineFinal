@@ -7,21 +7,22 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Created by dolplads on 12/10/2016.
  */
 @Stateless
-public class UserService {
+public class UserEJB {
     @EJB
-    protected UserRepository userRepository;
+    private UserRepository userRepository;
     @Inject
     private Logger logger;
 
     public User save(User user) {
-        User persisted = userRepository.findByUserName(user.getUserName());
-
+        User persisted = userRepository.findById(user.getUserName());
+        logger.log(Level.INFO, "user persisted? " + persisted);
         if (persisted == null) {
             String salt = DigestUtil.getSalt();
             String hash = DigestUtil.computeHash(user.getPasswordHash(), salt);
@@ -36,15 +37,24 @@ public class UserService {
     }
 
     public User login(@NotNull String userName, @NotNull String password) {
-        User persisted = userRepository.findByUserName(userName);
+        User persisted = userRepository.findById(userName);
 
         if (persisted != null) {
             String computedHash = DigestUtil.computeHash(password, persisted.getSalt());
             if (persisted.getPasswordHash().equals(computedHash)) {
+                persisted.setLoggedIn(true);
                 return persisted;
             }
         }
 
         return null;
+    }
+
+    public User findById(String userName) {
+        return userRepository.findById(userName);
+    }
+
+    public User update(User testUser) {
+        return userRepository.update(testUser);
     }
 }
