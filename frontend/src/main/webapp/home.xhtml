@@ -12,9 +12,103 @@
 
 
 <ui:composition template="shared/layout.xhtml">
-    <ui:define name="title">Home Page</ui:define>
+    <ui:define name="title">MyNews Home Page</ui:define>
 
     <ui:define name="content">
+        <c:set var="posts" value="#{newsController.displayNews()}"></c:set>
+
+        <h1>News</h1>
+        <hr/>
+
+
+        <!--
+        <h:selectOneMenu value="#{newsController.newsSortOption}">
+            <f:selectItem itemValue="BYTIME" itemLabel="Time"/>
+            <f:selectItem itemValue="BYSCORE" itemLabel="Score"/>
+            <f:ajax listener="#{newsController.updateSortOption()}"/>
+        </h:selectOneMenu>
+        -->
+        <h:form>
+            <h:selectOneMenu value="#{newsController.sortValue}" valueChangeListener="#{newsController.valueChanged}"
+                             onchange="submit()">
+                <f:selectItem itemValue="time" itemLabel="time"/>
+                <f:selectItem itemValue="score" itemLabel="score"/>
+            </h:selectOneMenu>
+        </h:form>
+
+
+        <c:if test="#{loginController.sessionUser.loggedIn}">
+            <h:form id="createPostForm">
+                <h:panelGrid columns="2">
+                    <h:inputTextarea value="#{newsController.post.text}" id="postText"/>
+                    <h:message for="postText" style="color: red;"/>
+                    <h:commandButton value="Create new" action="#{newsController.doCreate}" id="save"/>
+                </h:panelGrid>
+            </h:form>
+        </c:if>
+
+        <c:choose>
+            <c:when test="#{posts.size() == 0}">
+                <p>No news yet:( be the first to create one!</p>
+            </c:when>
+
+
+            <!-- news block start -->
+            <c:otherwise>
+                <h:dataTable id="eventsCreated" value="#{posts}" var="post"
+                             border="1" cellpadding="5" cellspacing="5">
+                    <h:column>
+                        <f:facet name="header">Time</f:facet>
+                        <h:outputText value="#{post.creationDate}"></h:outputText>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Author</f:facet>
+                        <h:outputText value="#{post.user.userName}"></h:outputText>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">News</f:facet>
+                        <h:outputText
+                                value="#{post.text.length() gt 30 ? post.text.substring(0,26).concat('...') : post.text}"></h:outputText>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Score</f:facet>
+                        <h:outputText value="#{post.score}"></h:outputText>
+                    </h:column>
+
+                    <c:if test="#{loginController.sessionUser.loggedIn}">
+                        <h:column>
+                            <f:facet name="header">Your vote</f:facet>
+                            <h:form>
+                                <h:selectOneRadio value="#{post.voteValueByUser}" onclick="submit()"
+                                                  valueChangeListener="#{newsController.updateVote(post,1)}">
+                                    <f:selectItem itemValue="1" itemLabel="1"/>
+                                </h:selectOneRadio>
+                            </h:form>
+                            <h:form>
+                                <h:selectOneRadio value="#{post.voteValueByUser}" onclick="submit()"
+                                                  valueChangeListener="#{newsController.updateVote(post,0)}">
+                                    <f:selectItem itemValue="0" itemLabel="0"/>
+                                </h:selectOneRadio>
+                            </h:form>
+                            <h:form>
+                                <h:selectOneRadio value="#{post.voteValueByUser}" onclick="submit()"
+                                                  valueChangeListener="#{newsController.updateVote(post,-1)}">
+                                    <f:selectItem itemValue="-1" itemLabel="-1"/>
+                                </h:selectOneRadio>
+                            </h:form>
+                        </h:column>
+                    </c:if>
+                </h:dataTable>
+            </c:otherwise>
+
+
+            <!-- news block end -->
+
+
+        </c:choose>
 
     </ui:define>
 </ui:composition>

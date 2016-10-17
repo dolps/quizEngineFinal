@@ -40,6 +40,10 @@ public abstract class AbstractPost {
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Vote> votes;
 
+    private int score;
+    @Transient
+    private int voteValueByUser;
+
     protected AbstractPost() {
     }
 
@@ -61,5 +65,13 @@ public abstract class AbstractPost {
     @PostConstruct
     public void init() {
         votes = new ArrayList<>();
+    }
+
+    @PreUpdate // TODO: 17/10/2016 test this
+    public void updateScore() {
+        int score = 0;
+        for (Vote vote : this.votes) {
+            score += vote.getVoteValue();
+        }
     }
 }

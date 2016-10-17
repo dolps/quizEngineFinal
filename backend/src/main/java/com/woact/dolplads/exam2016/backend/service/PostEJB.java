@@ -40,7 +40,7 @@ public class PostEJB {
         return postRepository.save(post);
     }
 
-    public Vote voteFor(@NotNull String userId, @NotNull Long postId) {
+    public Vote voteForPost(@NotNull String userId, @NotNull Long postId) {
         final int voteValue = 1;
         User user = userRepository.findById(userId);
         Post post = postRepository.findById(postId);
@@ -89,6 +89,16 @@ public class PostEJB {
         return postRepository.findAllByScore();
     }
 
+    public int getScoreForPost(Long postId) {
+        int score = 0;
+        List<Vote> votes = voteRepository.findByPostId(postId);
+
+        for (Vote vote : votes) {
+            score += vote.getVoteValue();
+        }
+        return score;
+    }
+
     public Comment createComment(@NotNull @Valid Comment comment) {
         return commentRepository.save(comment);
     }
@@ -108,15 +118,6 @@ public class PostEJB {
         User user = userRepository.findById(userId);
         Comment comment = commentRepository.findById(commentId);
         Vote vote = voteRepository.findByUserAndComment(userId, commentId);
-
-        /*
-        Vote vote = null;
-        for (Vote v : comment.getVotes()) {
-            if (v.getUser().getUserName().equals(user.getUserName())) {
-                vote = v;
-            }
-        }
-        */
 
         if (vote == null) {
             System.out.println(); // TODO: 17/10/2016 put in its own method

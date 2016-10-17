@@ -57,7 +57,7 @@ public class PostEJBTest extends ArquillianTestHelper {
         post = postEJB.createPost(post);
 
 
-        postEJB.voteFor(testUser.getUserName(), post.getId());
+        postEJB.voteForPost(testUser.getUserName(), post.getId());
         post = postEJB.findById(post.getId());
 
         assertEquals(1, post.getVotes().size());
@@ -81,8 +81,8 @@ public class PostEJBTest extends ArquillianTestHelper {
         Post post = getValidPost();
         post = postEJB.createPost(post);
 
-        postEJB.voteFor(testUser.getUserName(), post.getId());
-        postEJB.voteFor(testUser.getUserName(), post.getId());
+        postEJB.voteForPost(testUser.getUserName(), post.getId());
+        postEJB.voteForPost(testUser.getUserName(), post.getId());
 
         post = postEJB.findById(post.getId());
 
@@ -107,7 +107,7 @@ public class PostEJBTest extends ArquillianTestHelper {
         Post post = getValidPost();
         post = postEJB.createPost(post);
 
-        postEJB.voteFor(testUser.getUserName(), post.getId());
+        postEJB.voteForPost(testUser.getUserName(), post.getId());
         post = postEJB.findById(post.getId());
         assertEquals(1, post.getVotes().size());
 
@@ -121,7 +121,7 @@ public class PostEJBTest extends ArquillianTestHelper {
         Post post = getValidPost();
         post = postEJB.createPost(post);
 
-        postEJB.voteFor(testUser.getUserName(), post.getId());
+        postEJB.voteForPost(testUser.getUserName(), post.getId());
         post = postEJB.findById(post.getId());
         assertEquals(1, post.getVotes().get(0).getVoteValue());
 
@@ -166,13 +166,13 @@ public class PostEJBTest extends ArquillianTestHelper {
         postEJB.createPost(post1);
         postEJB.createPost(post2);
 
-        postEJB.voteFor(testUser.getUserName(), post1.getId());
+        postEJB.voteForPost(testUser.getUserName(), post1.getId());
         postEJB.voteAgainst(testUser.getUserName(), post2.getId());
         List<Post> posts = postEJB.getAllPostsByScore();
 
         assertEquals(post1.getId(), posts.get(0).getId());
 
-        postEJB.voteFor(testUser.getUserName(), post2.getId());
+        postEJB.voteForPost(testUser.getUserName(), post2.getId());
         postEJB.voteAgainst(testUser.getUserName(), post1.getId());
         posts = postEJB.getAllPostsByScore();
 

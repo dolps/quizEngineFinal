@@ -32,22 +32,16 @@
                 <h:message for="confirmPassword" style="color: red;"/>
 
                 <h:outputLabel value="First Name : "/>
-                <h:inputText value="#{createUserController.user.name}" id="firstName"/>
+                <h:inputText value="#{createUserController.user.firstName}" id="firstName"/>
                 <h:message for="firstName" style="color: red;"/>
 
+                <h:outputLabel value="Middle Name : "/>
+                <h:inputText value="#{createUserController.user.middleName}" id="middleName"/>
+                <h:message for="middleName" style="color: red;"/>
 
                 <h:outputLabel value="Last Name : "/>
-                <h:inputText value="#{createUserController.user.surName}" id="lastName"/>
+                <h:inputText value="#{createUserController.user.lastName}" id="lastName"/>
                 <h:message for="lastName" style="color: red;"/>
-
-                <h:outputLabel value="Country : "/>
-                <!-- enums must be defined not to give any issues -->
-                <h:selectOneMenu value="#{createUserController.user.address.countryEnum}" id="country">
-                    <f:selectItem itemValue="Norway" itemLabel="Norway"/>
-                    <f:selectItem itemValue="Sweden" itemLabel="Sweden"/>
-                    <f:selectItem itemValue="Denmark" itemLabel="Denmark"/>
-                </h:selectOneMenu>
-                <h:message for="country" style="color: red;"/>
             </h:panelGrid>
 
             <h:commandButton value="Create new" action="#{createUserController.create}" id="save"/>

@@ -21,8 +21,10 @@ public class PostRepository extends CrudRepository<Long, Post> {
     }
 
     public List<Post> findAllByScore() {
-        return entityManager.createQuery("select vote.post from Vote vote order by vote.voteValue desc")
+        return entityManager.createQuery("select post from Post post order by post.score desc")
                 .getResultList();
+        //return entityManager.createQuery("select vote.post from Vote vote order by vote.voteValue desc")
+        //      .getResultList();
     }
 
     public List<Post> findByUser(String userName) {

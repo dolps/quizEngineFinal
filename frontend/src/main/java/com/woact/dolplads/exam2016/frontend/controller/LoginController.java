@@ -3,6 +3,7 @@ package com.woact.dolplads.exam2016.frontend.controller;
 import com.woact.dolplads.exam2016.backend.entity.User;
 import com.woact.dolplads.exam2016.backend.service.UserEJB;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -20,6 +21,14 @@ public class LoginController implements Serializable {
     private UserEJB userEJB;
     @Inject
     private CredentialsController credentials;
+
+    @PostConstruct // TODO: 17/10/2016 remove when done testing
+    public void testInit() {
+        User u = new User("test", "test", "test", "test");
+        u.setPasswordHash("hash");
+        u.setSalt("salt");
+        userEJB.save(u);
+    }
 
 
     public String logIn() {

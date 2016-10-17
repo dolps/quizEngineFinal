@@ -29,4 +29,12 @@ public class VoteRepository extends CrudRepository<Long, Vote> {
         }
         return null;
     }
+
+    public List<Vote> findByPostId(Long postId) {
+        List<Vote> votes = entityManager.createQuery("select vote from Vote vote where vote.post.id = :postId")
+                .setParameter("postId", postId)
+                .getResultList();
+
+        return votes;
+    }
 }

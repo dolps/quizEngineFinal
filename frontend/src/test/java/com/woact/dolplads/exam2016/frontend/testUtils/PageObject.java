@@ -18,7 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class PageObject {
 
     private final WebDriver driver;
-    private String baseUrl = "http://localhost:8080/exam_example";
+    private String baseUrl = "http://localhost:8080/pg5100_exam";
 
     public PageObject(WebDriver driver) {
         this.driver = driver;
