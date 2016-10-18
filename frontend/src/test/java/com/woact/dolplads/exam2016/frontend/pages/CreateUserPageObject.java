@@ -29,7 +29,7 @@ public class CreateUserPageObject extends PageObject {
     }
 
     public User createUser(String userName, String password, String confirmPassword,
-                           String firstName, String middleName, String lastName, CountryEnum country) throws InterruptedException {
+                           String firstName, String middleName, String lastName) throws InterruptedException {
         String form = "createForm:";
         getElement(form + "userName").sendKeys(userName);
         getElement(form + "password").sendKeys(password);
@@ -41,7 +41,8 @@ public class CreateUserPageObject extends PageObject {
 
         // TODO: 12/10/2016 fix this just for compiling now
         //User u = new User(userName, firstName, lastName, new Address("street", "post", country));
-        User u = new User();
+        User u = new User(userName, firstName, middleName, lastName);
+
         u.setPasswordHash(confirmPassword);
 
         return u;

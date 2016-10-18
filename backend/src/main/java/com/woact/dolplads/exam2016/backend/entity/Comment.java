@@ -22,11 +22,20 @@ public class Comment extends AbstractPost {
         super(user, text);
     }
 
+
     public String getText() {
         if (!moderated) {
             return super.getText();
         }
 
-        return "has been moderated";
+        return "This coment has been moderated";
+    }
+
+    public int getScore() {
+        if (moderated) {
+            return -10;
+        } else {
+            return super.getScore();
+        }
     }
 }

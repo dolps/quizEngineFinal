@@ -1,5 +1,7 @@
 package com.woact.dolplads.exam2016.frontend.pages;
 
+import com.woact.dolplads.exam2016.backend.entity.Post;
+import com.woact.dolplads.exam2016.backend.entity.User;
 import lombok.extern.java.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -56,6 +58,22 @@ public class HomePageObject extends PageObject {
                 && getDriver().findElements(By.id("layout_login_form:welcomeMessage")).isEmpty();
     }
 
+    public int getNumberOfNews(String userName) {
+
+        List<WebElement> elements = getDriver().findElements(
+                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + userName + "')]")
+        );///td[5]
+        return elements.size();
+    }
+
+    public void createNews(String text) {
+        String form = "createPostForm:";
+        getElement(form + "postText").sendKeys(text);
+        getElement(form + "save").click();
+        waitForPageToLoad();
+    }
+
+
     public int numberOfEventsOnHomePage() {
         int rowCount = getDriver().findElements(By.xpath("//table[@id='eventsCreated']/tbody/tr")).size();
         log.log(Level.INFO, "number of events: " + rowCount);
@@ -65,6 +83,7 @@ public class HomePageObject extends PageObject {
     private WebElement getElement(String element) {
         return getDriver().findElement(By.id(element));
     }
+
 
     public void clickCountryCheckbox() {
         WebElement e = getDriver().findElement(By.id("countryForm:showUserCountry"));
@@ -87,7 +106,7 @@ public class HomePageObject extends PageObject {
         boolean attending = isAttending(eventName);
         if (attending == value) return;
 
-        log.log(Level.INFO,"trying to set attendance");
+        log.log(Level.INFO, "trying to set attendance");
         List<WebElement> elements = getDriver().findElements(
                 By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + eventName + "')]/td[6]/form/input[@type='checkbox']")
         );

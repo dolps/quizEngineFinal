@@ -62,10 +62,12 @@
                                                                                              value="#{post.user.userName}"/></h:link>
                     </h:column>
 
+
                     <h:column>
                         <f:facet name="header">News</f:facet>
-                        <h:outputText
-                                value="#{post.text.length() gt 30 ? post.text.substring(0,26).concat('...') : post.text}"></h:outputText>
+                        <h:link value="#{post.text.length() gt 30 ? post.text.substring(0,26).concat('...') : post.text}"
+                                outcome="newsDetails"><f:param name="newsId"
+                                                               value="#{post.id}"/></h:link>
                     </h:column>
 
                     <h:column>

@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  */
 @Ignore
 @Log
-public class WebPageIT extends SeleniumTestBase {
+public class MyNewsIT extends SeleniumTestBase {
     private HomePageObject homePageObject;
     private static final AtomicLong counter = new AtomicLong(System.currentTimeMillis());
 
@@ -45,6 +45,32 @@ public class WebPageIT extends SeleniumTestBase {
         int cookies = getDriver().manage().getCookies().size();
         assertEquals(0, cookies);
     }
+
+
+    @Test
+    public void testCreateNews() throws InterruptedException {
+        LoginPageObject loginPageObject = homePageObject.toLogin();
+        CreateUserPageObject createUserPage = loginPageObject.toCreate();
+        User u = createUniqueUserThenLogIn();
+        assertTrue(homePageObject.isOnPage());
+        assertTrue(homePageObject.isLoggedIn(u.getUserName()));
+
+        assertEquals(0, homePageObject.getNumberOfNews(u.getUserName()));
+        homePageObject.createNews("someText");
+        assertEquals(1, homePageObject.getNumberOfNews(u.getUserName()));
+
+        homePageObject.createNews("someText");
+        assertEquals(2, homePageObject.getNumberOfNews(u.getUserName()));
+
+
+        Thread.sleep(2000);
+    }
+
+    @Test
+    public void testNewsAfterLogOut() {
+
+    }
+
 
     @Test
     public void testIsHome() throws Exception {
@@ -90,8 +116,8 @@ public class WebPageIT extends SeleniumTestBase {
         CreateUserPageObject createUserPage = loginPageObject.toCreate();
         assertTrue(createUserPage.isOnPage());
 
-        createUserPage
-                .createUser("userName" + getUniqueId(), "password", "confirmPassword", "firstName", "middleName", "lastName", CountryEnum.Norway);
+        //   createUserPage
+        //.createUser("userName" + getUniqueId(), "password", "confirmPassword", "firstName", "middleName", "lastName", CountryEnum.Norway);
 
         assertTrue(createUserPage.isOnPage());
     }
@@ -104,7 +130,7 @@ public class WebPageIT extends SeleniumTestBase {
         CreateUserPageObject createUserPageObject = loginPageObject.toCreate();
         assertTrue(createUserPageObject.isOnPage());
         String unique = getUniqueId();
-        createUserPageObject.createUser(unique, "password", "password", "first", "second", "last", CountryEnum.Norway);
+        //createUserPageObject.createUser(unique, "password", "password", "first", "second", "last", CountryEnum.Norway);
         assertTrue(homePageObject.isOnPage());
         assertTrue(homePageObject.isLoggedIn(unique));
     }
@@ -140,7 +166,7 @@ public class WebPageIT extends SeleniumTestBase {
         String unique = getUniqueId();
 
         return createUserPageObject
-                .createUser(unique, "password", "password", "first", "second", "last", CountryEnum.Norway);
+                .createUser(unique, "pass", "pass", "usur", "user", "usersson");
     }
 
     private void loginExistingUser(User user) {

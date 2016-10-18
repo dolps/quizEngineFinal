@@ -93,6 +93,7 @@ public class PostEJB {
         Comment comment = entityManager.find(Comment.class, commentId);
         if (comment.getUser().getUserName().equals(userName)) {
             comment.setModerated(value);
+            voteForComment(userName, commentId, 0);
         }
     }
 
@@ -107,6 +108,9 @@ public class PostEJB {
 
         if (user == null || comment == null) {
             throw new IllegalArgumentException("user or comment dont exists");
+        }
+        if (comment.isModerated()) {
+            return;
         }
 
         for (Vote v : comment.getVotes()) {
@@ -131,6 +135,25 @@ public class PostEJB {
                 .createQuery("select vote from Vote vote where vote.user.userName = :userName and vote.postId = :postId")
                 .setParameter("userName", userName)
                 .setParameter("postId", postId)
+                .getResultList();
+
+        if (!votes.isEmpty()) {
+            return votes.get(0).getValue();
+        }
+        return 0;
+    }
+
+    public List<Comment> findCommentsByPost(Long requestedPostId) {
+        return entityManager.createQuery("select post.comments from Post post where post.id = :postId")
+                .setParameter("postId", requestedPostId)
+                .getResultList();
+    }
+
+    public int findVoteValueForComment(String userName, Long commentId) {
+        List<Vote> votes = entityManager
+                .createQuery("select vote from Vote vote where vote.user.userName = :userName and vote.postId = :commentId")
+                .setParameter("userName", userName)
+                .setParameter("commentId", commentId)
                 .getResultList();
 
         if (!votes.isEmpty()) {

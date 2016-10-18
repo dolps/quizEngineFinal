@@ -29,6 +29,50 @@
             </h:form>
         </c:if>
 
+        <h:dataTable id="eventsCreated" value="#{newsDetailsController.listDataModel}" var="comment"
+                     border="1" cellpadding="5" cellspacing="5">
+
+
+            <h:column>
+                <f:facet name="header">Author</f:facet>
+                <h:link value="#{comment.user.userName}" outcome="userDetails"><f:param name="username"
+                                                                                        value="#{comment.user.userName}"/></h:link>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">News</f:facet>
+                <h:outputText
+                        value="#{comment.text}"></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Score</f:facet>
+                <h:outputText value="#{comment.score}"></h:outputText>
+            </h:column>
+
+            <c:if test="#{loginController.sessionUser.loggedIn}">
+                <h:column>
+                    <f:facet name="header">Your vote</f:facet>
+                    <h:form>
+                        <h:selectOneRadio value="#{newsDetailsController.userVoteMap[post.id]}"
+                                          valueChangeListener="#{newsDetailsController.voteListener}"
+                                          onclick="submit()">
+                            <f:selectItem itemValue="1" itemLabel="1"/>
+                            <f:selectItem itemValue="0" itemLabel="0"/>
+                            <f:selectItem itemValue="-1" itemLabel="-1 "/>
+                        </h:selectOneRadio>
+                    </h:form>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Moderation</f:facet>
+                    <h:form>
+                        <h:selectBooleanCheckbox
+                                value="#{comment.moderated}"
+                                onclick="submit()"
+                                valueChangeListener="#{newsDetailsController.moderate(comment.id, !comment.moderated)}"/>
+                    </h:form>
+                </h:column>
+            </c:if>
+        </h:dataTable>
 
         <!--
         <c:otherwise>

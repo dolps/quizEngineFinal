@@ -46,4 +46,6 @@ public abstract class PageObject {
         return wait.until((ExpectedCondition<Boolean>) input -> (
                 (JavascriptExecutor) input).executeScript("return document.readyState").equals("complete"));
     }
+
+
 }

@@ -68,9 +68,6 @@ public class UserEJB {
             List<Comment> comments = user.getComments();
             for (Comment comment : comments) {
                 points += comment.getScore();
-                if (comment.isModerated()) {
-                    points -= 10;
-                }
             }
 
             List<Post> posts = user.getPosts();
