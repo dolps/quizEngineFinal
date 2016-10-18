@@ -1,6 +1,5 @@
 package com.woact.dolplads.exam2016.frontend.pages;
 
-import com.woact.dolplads.exam2016.backend.entity.Address;
 import com.woact.dolplads.exam2016.backend.entity.User;
 import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
 import org.openqa.selenium.By;

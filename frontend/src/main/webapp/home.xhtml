@@ -22,16 +22,8 @@
         <h1>News</h1>
         <hr/>
 
-
-        <!--
-        <h:selectOneMenu value="#{newsController.newsSortOption}">
-            <f:selectItem itemValue="BYTIME" itemLabel="Time"/>
-            <f:selectItem itemValue="BYSCORE" itemLabel="Score"/>
-            <f:ajax listener="#{newsController.updateSortOption()}"/>
-        </h:selectOneMenu>
-        -->
         <h:form>
-            <h:selectOneMenu value="#{newsController.sortValue}" valueChangeListener="#{newsController.valueChanged}"
+            <h:selectOneMenu value="#{newsController.sortValue}"
                              onchange="submit()">
                 <f:selectItem itemValue="time" itemLabel="time"/>
                 <f:selectItem itemValue="score" itemLabel="score"/>
@@ -50,7 +42,7 @@
         </c:if>
 
         <c:choose>
-            <c:when test="#{posts.rowCount == 0}">
+            <c:when test="#{newsController.listDataModel.rowCount == 0}">
                 <p>No news yet:( be the first to create one!</p>
             </c:when>
 
@@ -66,7 +58,8 @@
 
                     <h:column>
                         <f:facet name="header">Author</f:facet>
-                        <h:outputText value="#{post.user.userName}"></h:outputText>
+                        <h:link value="#{post.user.userName}" outcome="userDetails"><f:param name="username"
+                                                                                             value="#{post.user.userName}"/></h:link>
                     </h:column>
 
                     <h:column>
@@ -84,7 +77,7 @@
                             <f:facet name="header">Your vote</f:facet>
                             <h:form>
                                 <h:selectOneRadio value="#{newsController.userVoteMap[post.id]}"
-                                                  valueChangeListener="#{newsController.myListener}"
+                                                  valueChangeListener="#{newsController.voteListener}"
                                                   onclick="submit()">
                                     <f:selectItem itemValue="1" itemLabel="1"/>
                                     <f:selectItem itemValue="0" itemLabel="0"/>
@@ -93,31 +86,6 @@
                             </h:form>
                         </h:column>
                     </c:if>
-                    <!--
-                                        <c:if test="#{loginController.sessionUser.loggedIn}">
-                                            <h:column>
-                                                <f:facet name="header">Your vote</f:facet>
-                                                <h:form>
-                                                    <h:selectOneRadio value="#{post.valueByUser}" onclick="submit()"
-                                                                      valueChangeListener="#{newsController.updateVote(post,1)}">
-                                                        <f:selectItem itemValue="1" itemLabel="1"/>
-                                                    </h:selectOneRadio>
-                                                </h:form>
-                                                <h:form>
-                                                    <h:selectOneRadio value="#{post.valueByUser}" onclick="submit()"
-                                                                      valueChangeListener="#{newsController.updateVote(post,0)}">
-                                                        <f:selectItem itemValue="0" itemLabel="0"/>
-                                                    </h:selectOneRadio>
-                                                </h:form>
-                                                <h:form>
-                                                    <h:selectOneRadio value="#{post.valueByUser}" onclick="submit()"
-                                                                      valueChangeListener="#{newsController.updateVote(post,-1)}">
-                                                        <f:selectItem itemValue="-1" itemLabel="-1"/>
-                                                    </h:selectOneRadio>
-                                                </h:form>
-                                            </h:column>
-                                        </c:if>
-                                        -->
                 </h:dataTable>
             </c:otherwise>
 

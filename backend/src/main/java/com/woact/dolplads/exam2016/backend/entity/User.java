@@ -48,7 +48,7 @@ public class User {
     @NotEmpty
     private String lastName;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date registrationDate;
 
     @NotEmpty

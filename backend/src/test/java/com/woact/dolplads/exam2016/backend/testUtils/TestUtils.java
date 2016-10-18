@@ -1,9 +1,5 @@
 package com.woact.dolplads.exam2016.backend.testUtils;
 
-import com.woact.dolplads.exam2016.backend.entity.Address;
-import com.woact.dolplads.exam2016.backend.entity.User;
-import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.Set;

@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Comment extends AbstractPost {
     private boolean moderated;
 
-    protected Comment() {
+    public Comment() {
     }
 
     public Comment(User user, String text) {
