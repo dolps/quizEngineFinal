@@ -1,7 +1,5 @@
 package com.woact.dolplads.exam2016.frontend.pages;
 
-import com.woact.dolplads.exam2016.backend.entity.Post;
-import com.woact.dolplads.exam2016.backend.entity.User;
 import lombok.extern.java.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -70,8 +68,8 @@ public class HomePageObject extends PageObject {
 
     public void createNews(String text) {
         String form = "createPostForm:";
-        getElement(form + "postText").sendKeys(text);
-        getElement(form + "save").click();
+        getElemById(form + "postText").sendKeys(text);
+        getElemById(form + "save").click();
         waitForPageToLoad();
     }
 
@@ -153,13 +151,28 @@ public class HomePageObject extends PageObject {
     }
 
 
+    public NewsDetailsPageObject toNewsDetails(String userName) {
+        List<WebElement> elements = getDriver().findElements(
+                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + userName + "')]/td[3]")
+        );
+        elements.get(0).click();
+
+        waitForPageToLoad();
+
+        return new NewsDetailsPageObject(getDriver());
+    }
+
+
+    // oold tests
+
+
     public int numberOfEventsOnHomePage() {
         int rowCount = getDriver().findElements(By.xpath("//table[@id='eventsCreated']/tbody/tr")).size();
         log.log(Level.INFO, "number of events: " + rowCount);
         return rowCount;
     }
 
-    private WebElement getElement(String element) {
+    private WebElement getElemById(String element) {
         return getDriver().findElement(By.id(element));
     }
 

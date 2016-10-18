@@ -1,15 +1,12 @@
 package com.woact.dolplads.exam2016.frontend;
 
 import com.woact.dolplads.exam2016.backend.entity.User;
-import com.woact.dolplads.exam2016.frontend.pages.UserDetailsPageObject;
+import com.woact.dolplads.exam2016.frontend.pages.*;
 import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import com.woact.dolplads.exam2016.frontend.pages.CreateUserPageObject;
-import com.woact.dolplads.exam2016.frontend.pages.HomePageObject;
-import com.woact.dolplads.exam2016.frontend.pages.LoginPageObject;
 import com.woact.dolplads.exam2016.frontend.testUtils.SeleniumTestBase;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -163,20 +160,6 @@ public class MyNewsIT extends SeleniumTestBase {
         assertTrue(trimmed);
     }
 
-    /***
-     *  testSorting
-     ◦ create and log in with a new user
-     ◦ create a post
-     ◦ sort by time
-     ◦ upvote the post
-     ◦ create another post
-     ◦ verify the posts are NOT sorted by score
-     ◦ sort by score
-     ◦ verify the posts are sorted by score
-     ◦ sort by time
-     ◦ verify the posts are NOT sorted by score
-     * @throws Exception
-     */
     @Test
     public void testSorting() throws Exception {
         User u1 = createUniqueUserThenLogIn();
@@ -196,6 +179,60 @@ public class MyNewsIT extends SeleniumTestBase {
         homePageObject.sortNewsBy("time");
         sorted = homePageObject.isSortedByScore();
         assertFalse(sorted);
+    }
+
+    @Test
+    public void tesCreateComment() throws Exception {
+        User u1 = createUniqueUserThenLogIn();
+        homePageObject.createNews("old news");
+        NewsDetailsPageObject newsDetailsPage = homePageObject.toNewsDetails(u1.getUserName());
+        assertTrue(newsDetailsPage.isOnPage());
+
+        int n = newsDetailsPage.getNumberOfCommentsByUser(u1.getUserName());
+        assertTrue(n == 0);
+
+        newsDetailsPage.createComment(u1.getUserName());
+        newsDetailsPage.createComment(u1.getUserName());
+        newsDetailsPage.createComment(u1.getUserName());
+
+        n = newsDetailsPage.getNumberOfCommentsByUser(u1.getUserName());
+        assertTrue(n == 3);
+    }
+
+    @Test
+    public void canModerate() throws Exception {
+        User u1 = createUniqueUserThenLogIn();
+        homePageObject.createNews("news");
+        NewsDetailsPageObject newsDetailsPage = homePageObject.toNewsDetails(u1.getUserName());
+        assertTrue(newsDetailsPage.isOnPage());
+
+        newsDetailsPage.createComment("this is comment");
+
+        boolean moderated = newsDetailsPage.moderateComment(u1.getUserName());
+        assertTrue(moderated);
+
+        // just getting the post back to origin state for next asserts
+        moderated = newsDetailsPage.moderateComment(u1.getUserName());
+        assertFalse(moderated);
+
+        homePageObject = newsDetailsPage.logOut();
+        assertTrue(homePageObject.isOnPage());
+
+        newsDetailsPage = homePageObject.toNewsDetails(u1.getUserName());
+        moderated = newsDetailsPage.moderateComment(u1.getUserName());
+        assertFalse(moderated);
+
+        homePageObject = newsDetailsPage.goHome();
+        createUniqueUserThenLogIn();
+        newsDetailsPage = homePageObject.toNewsDetails(u1.getUserName());
+        moderated = newsDetailsPage.moderateComment(u1.getUserName());
+        assertFalse(moderated);
+
+        homePageObject = newsDetailsPage.logOut();
+        loginExistingUser(u1);
+        newsDetailsPage = homePageObject.toNewsDetails(u1.getUserName());
+        moderated = newsDetailsPage.moderateComment(u1.getUserName());
+        assertTrue(moderated);
     }
 
     // old tests
