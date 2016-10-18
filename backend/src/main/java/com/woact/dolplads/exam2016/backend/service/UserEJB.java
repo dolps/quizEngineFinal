@@ -1,5 +1,7 @@
 package com.woact.dolplads.exam2016.backend.service;
 
+import com.woact.dolplads.exam2016.backend.entity.Comment;
+import com.woact.dolplads.exam2016.backend.entity.Post;
 import com.woact.dolplads.exam2016.backend.entity.User;
 import com.woact.dolplads.exam2016.backend.repository.UserRepository;
 
@@ -7,6 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,5 +59,26 @@ public class UserEJB {
 
     public User update(User testUser) {
         return userRepository.update(testUser);
+    }
+
+    public int getCarmaPointsForUser(String userName) {
+        int points = 0;
+        User user = userRepository.findById(userName);
+        if (user != null) {
+            List<Comment> comments = user.getComments();
+            for (Comment comment : comments) {
+                points += comment.getScore();
+                if (comment.isModerated()) {
+                    points -= 10;
+                }
+            }
+
+            List<Post> posts = user.getPosts();
+            for (Post p : posts) {
+                points += p.getScore();
+            }
+
+        }
+        return points;
     }
 }

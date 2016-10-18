@@ -6,18 +6,15 @@ import lombok.Setter;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by dolplads on 17/10/2016.
  */
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
+//@Entity
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 @Setter
 public abstract class AbstractPost {
@@ -25,24 +22,22 @@ public abstract class AbstractPost {
     @GeneratedValue
     private Long id;
 
-    @NotNull
-    @Valid
     @ManyToOne
     @JoinColumn
     private User user;
+
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Vote> votes;
 
     @NotEmpty
     private String text;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<Vote> votes;
-
     private int score;
-    @Transient
-    private int voteValueByUser;
+
+    // teststage
+    private int valueByUser;
 
     protected AbstractPost() {
     }
@@ -52,7 +47,6 @@ public abstract class AbstractPost {
         this.text = text;
     }
 
-
     /**
      * Set the time of the first time this post was saved to DB
      */
@@ -61,17 +55,29 @@ public abstract class AbstractPost {
         if (creationDate == null) creationDate = new Date();
     }
 
-    // TODO: 17/10/2016 check if necassary
-    @PostConstruct
-    public void init() {
-        votes = new ArrayList<>();
+    @PostLoad
+    public void calculateScore() {
+        setScore(getScore());
     }
 
-    @PreUpdate // TODO: 17/10/2016 test this
-    public void updateScore() {
+    public int getScore() {
         int score = 0;
-        for (Vote vote : this.votes) {
-            score += vote.getVoteValue();
+        for (Vote vote : votes) {
+            score += vote.getValue();
+        }
+        return score;
+    }
+
+    public void removeVote(String userName) {
+        Vote toRemove = null;
+        for (Vote v : votes) {
+            if (v.getUser().getUserName().equals(userName)) {
+                toRemove = v;
+                break;
+            }
+        }
+        if (toRemove != null) {
+            votes.remove(toRemove);
         }
     }
 }

@@ -1,8 +1,5 @@
 package com.woact.dolplads.exam2016.backend.repository;
 
-import com.woact.dolplads.exam2016.backend.entity.Comment;
-import com.woact.dolplads.exam2016.backend.entity.Post;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;

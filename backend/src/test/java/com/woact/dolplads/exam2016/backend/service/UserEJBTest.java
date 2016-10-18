@@ -1,14 +1,10 @@
 package com.woact.dolplads.exam2016.backend.service;
 
-import com.woact.dolplads.exam2016.backend.entity.Comment;
-import com.woact.dolplads.exam2016.backend.entity.Post;
-import com.woact.dolplads.exam2016.backend.entity.User;
-import com.woact.dolplads.exam2016.backend.entity.Vote;
+import com.woact.dolplads.exam2016.backend.entity.*;
 import com.woact.dolplads.exam2016.backend.testUtils.ArquillianTestHelper;
 import com.woact.dolplads.exam2016.backend.testUtils.DeleterEJB;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.ejb.EJB;
@@ -40,12 +36,13 @@ public class UserEJBTest extends ArquillianTestHelper {
     @After
     @Before
     public void setUp() throws Exception {
-        deleterEJB.deleteEntities(Vote.class);
-        deleterEJB.deleteEntities(Comment.class);
         deleterEJB.deleteEntities(Post.class);
+        deleterEJB.deleteEntities(Comment.class);
+        deleterEJB.deleteEntities(Vote.class);
         deleterEJB.deleteEntities(User.class);
         logger.log(Level.INFO, "preparing userservice test");
     }
+
 
     @Test
     public void testKarmaWithModeration() throws Exception {
@@ -54,42 +51,44 @@ public class UserEJBTest extends ArquillianTestHelper {
         assertTrue(user != null);
 
         Post post = new Post(user, "someText");
-        post = postEJB.createPost(post);
+        post = postEJB.createPost(user.getUserName(), post);
         assertTrue(post.getId() != null);
+        assertEquals(1, postEJB.findAllPostsByTime().size());
 
-        Comment comment1 = new Comment(user, post, "comment1");
-        Comment comment2 = new Comment(user, post, "comment2");
-        Comment comment3 = new Comment(user, post, "comment3");
-        Comment comment4 = new Comment(user, post, "comment4s");
+        Comment comment1 = new Comment(user, "comment1");
+        Comment comment2 = new Comment(user, "comment2");
+        Comment comment3 = new Comment(user, "comment3");
+        Comment comment4 = new Comment(user, "comment4s");
 
-        comment1 = postEJB.createComment(comment1);
-        comment2 = postEJB.createComment(comment2);
-        comment3 = postEJB.createComment(comment3);
-        comment4 = postEJB.createComment(comment4);
+        comment1 = postEJB.createCommentForPost(post.getId(), comment1);
+        comment2 = postEJB.createCommentForPost(post.getId(), comment2);
+        comment3 = postEJB.createCommentForPost(post.getId(), comment3);
+        comment4 = postEJB.createCommentForPost(post.getId(), comment4);
 
-        assertEquals(4, postEJB.getAllComments().size());
-        assertEquals(1, postEJB.getAllPostByTime().size());
+        assertEquals(4, postEJB.findAllComments().size());
+        assertEquals(post.getId(), postEJB.findPost(post.getId()).getId());
+        assertEquals(1, postEJB.findAllPostsByTime().size());
 
-        Vote vote = postEJB.voteAgainst(user.getUserName(), post.getId());
-        assertEquals(-1, postEJB.getCarmaPointsForUser(user.getUserName()));
+        postEJB.voteForPost(user.getUserName(), post.getId(), -1);
+        assertEquals(-1, userEJB.getCarmaPointsForUser(user.getUserName()));
 
         postEJB.voteForComment(user.getUserName(), comment1.getId(), 1);
         postEJB.voteForComment(user.getUserName(), comment2.getId(), 1);
-        assertEquals(1, postEJB.getCarmaPointsForUser(user.getUserName()));
-
+        assertEquals(1, userEJB.getCarmaPointsForUser(user.getUserName()));
 
         postEJB.moderateComment(user.getUserName(), comment3.getId(), true);
-        assertEquals(-9, postEJB.getCarmaPointsForUser(user.getUserName()));
+        assertEquals(-9, userEJB.getCarmaPointsForUser(user.getUserName()));
 
         postEJB.moderateComment(user.getUserName(), comment4.getId(), true);
-        assertEquals(-19, postEJB.getCarmaPointsForUser(user.getUserName()));
+        assertEquals(-19, userEJB.getCarmaPointsForUser(user.getUserName()));
 
-        User user2 = getValidUser();
-        user2 = userEJB.save(user2);
+        User u2 = getValidUser();
+        u2 = userEJB.save(u2);
 
-        postEJB.voteForComment(user2.getUserName(), comment1.getId(),1);
-        assertEquals(-18, postEJB.getCarmaPointsForUser(user.getUserName()));
+        postEJB.voteForComment(u2.getUserName(), comment1.getId(), 1);
+        assertEquals(-18, userEJB.getCarmaPointsForUser(user.getUserName()));
     }
+
 
     /**
      * Tests not described in exam document

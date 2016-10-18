@@ -1,5 +1,6 @@
 package com.woact.dolplads.exam2016.backend.repository;
 
+import com.woact.dolplads.exam2016.backend.entity.AbstractPost;
 import com.woact.dolplads.exam2016.backend.entity.Post;
 import com.woact.dolplads.exam2016.backend.entity.User;
 import com.woact.dolplads.exam2016.backend.testUtils.ArquillianTestHelper;
@@ -35,7 +36,7 @@ public class PostRepositoryTest extends ArquillianTestHelper {
     @After
     public void prepareDB() throws Exception {
         logger.log(Level.INFO, "restoring DB");
-        deleterEJB.deleteEntities(Post.class);
+        deleterEJB.deleteEntities(AbstractPost.class);
         deleterEJB.deleteEntities(User.class);
 
         persistUser();
@@ -45,7 +46,7 @@ public class PostRepositoryTest extends ArquillianTestHelper {
     public void save() throws Exception {
         int size = postRepository.findAll().size();
 
-        Post post = getValidPost();
+        AbstractPost post = getValidPost();
         post = postRepository.save(post);
 
         assertEquals(size + 1, postRepository.findAll().size());
@@ -54,7 +55,7 @@ public class PostRepositoryTest extends ArquillianTestHelper {
 
     @Test
     public void findById() throws Exception {
-        Post post = getValidPost();
+        AbstractPost post = getValidPost();
         post = postRepository.save(post);
 
         assertNotNull(postRepository.findById(post.getId()));
@@ -64,7 +65,7 @@ public class PostRepositoryTest extends ArquillianTestHelper {
     @Test
     public void remove() throws Exception {
         int size = postRepository.findAll().size();
-        Post post = getValidPost();
+        AbstractPost post = getValidPost();
         post = postRepository.save(post);
 
         postRepository.remove(post);
@@ -74,7 +75,7 @@ public class PostRepositoryTest extends ArquillianTestHelper {
 
     @Test
     public void update() throws Exception {
-        Post post = getValidPost();
+        AbstractPost post = getValidPost();
         post.setText("before");
         post = postRepository.save(post);
 
@@ -90,13 +91,13 @@ public class PostRepositoryTest extends ArquillianTestHelper {
 
     @Test
     public void findAll() throws Exception {
-        Post post = getValidPost();
-        Post post2 = getValidPost();
+        AbstractPost post = getValidPost();
+        AbstractPost post2 = getValidPost();
 
         postRepository.save(post);
         postRepository.save(post2);
 
-        List<Post> posts = postRepository.findAll();
+        List<AbstractPost> posts = postRepository.findAll();
 
         assertEquals(2, posts.size());
     }
@@ -108,7 +109,7 @@ public class PostRepositoryTest extends ArquillianTestHelper {
         this.user = userRepository.save(user);
     }
 
-    private Post getValidPost() {
+    private AbstractPost getValidPost() {
         return new Post(this.user, "text");
     }
 }

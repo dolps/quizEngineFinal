@@ -4,12 +4,14 @@ import com.woact.dolplads.exam2016.backend.annotations.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by dolplads on 12/10/2016.
@@ -55,6 +57,17 @@ public class User {
     @NotEmpty
     private String salt;
 
+    @OneToMany(mappedBy = "user")
+    //@ManyToMany(mappedBy = "user")
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "user")
+    //@ManyToMany(mappedBy = "user")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user")
+    private List<Vote> votes;
+
     @Transient
     private boolean loggedIn;
 
@@ -66,6 +79,13 @@ public class User {
         this.middleName = middleName;
         this.lastName = lastName;
         this.userName = userName;
+    }
+
+    @PostConstruct
+    public void init() {
+        posts = new ArrayList<>();
+        comments = new ArrayList<>();
+        votes = new ArrayList<>();
     }
 
     @PrePersist
