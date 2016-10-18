@@ -137,7 +137,68 @@ public class MyNewsIT extends SeleniumTestBase {
         //new Select(driver.findElement(By.id("createUserForm:country"))).selectByVisibleText(country);
     }
 
+    @Test
+    public void testScoreWithTwoUsers() throws Exception {
+        User u1 = createUniqueUserThenLogIn();
+        homePageObject.createNews("juuuhuu");
+        homePageObject.sortNewsBy("time");
+        homePageObject.voteForFirstPost(1);
 
+        assertEquals(1, homePageObject.getScoreForFirstPost());
+
+        homePageObject.logOut();
+        User u2 = createUniqueUserThenLogIn();
+        homePageObject.voteForFirstPost(1);
+        assertEquals(2, homePageObject.getScoreForFirstPost());
+    }
+
+    @Test
+    public void testLongText() throws Exception {
+        User u1 = createUniqueUserThenLogIn();
+        String text = "thisisaverylongtexttsdfsdfsdfsdfhatdontfitindinsidethetextboxthatwell";
+        homePageObject.createNews(text);
+        homePageObject.sortNewsBy("time");
+
+        boolean trimmed = homePageObject.checkifTrimmed();
+        assertTrue(trimmed);
+    }
+
+    /***
+     *  testSorting
+     ◦ create and log in with a new user
+     ◦ create a post
+     ◦ sort by time
+     ◦ upvote the post
+     ◦ create another post
+     ◦ verify the posts are NOT sorted by score
+     ◦ sort by score
+     ◦ verify the posts are sorted by score
+     ◦ sort by time
+     ◦ verify the posts are NOT sorted by score
+     * @throws Exception
+     */
+    @Test
+    public void testSorting() throws Exception {
+        User u1 = createUniqueUserThenLogIn();
+        homePageObject.createNews("sometext");
+        homePageObject.sortNewsBy("time");
+
+        homePageObject.voteForFirstPost(1);
+        homePageObject.createNews("otherpost");
+        // verify not sorted by score
+        boolean sorted = homePageObject.isSortedByScore();
+        assertFalse(sorted);
+        // sort by score
+        homePageObject.sortNewsBy("score");
+        sorted = homePageObject.isSortedByScore();
+        assertTrue(sorted);
+
+        homePageObject.sortNewsBy("time");
+        sorted = homePageObject.isSortedByScore();
+        assertFalse(sorted);
+    }
+
+    // old tests
     @Test
     public void testIsHome() throws Exception {
         assertTrue(homePageObject.isOnPage());

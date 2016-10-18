@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Created by dolplads on 01/10/16.
@@ -139,6 +140,18 @@ public class HomePageObject extends PageObject {
         return 0;
     }
 
+    public boolean checkifTrimmed() {
+        List<WebElement> elements = getDriver().findElements(
+                By.xpath("//*[@id=\"eventsCreated\"]/tbody/tr[1]/td[3]")
+        );
+        if (!elements.isEmpty()) {
+            String val = elements.get(0).getText();
+            return val.length() == 29 && val.endsWith("...");
+        }
+
+        return false;
+    }
+
 
     public int numberOfEventsOnHomePage() {
         int rowCount = getDriver().findElements(By.xpath("//table[@id='eventsCreated']/tbody/tr")).size();
@@ -199,5 +212,15 @@ public class HomePageObject extends PageObject {
             return -1;
         }
         return Integer.parseInt(elements.get(0).getText());
+    }
+
+    public boolean isSortedByScore() {
+        List<WebElement> elements = getDriver().findElements(
+                By.xpath("//table[@id='eventsCreated']//tbody//tr/td[4]"));
+
+        List<String> list = elements.stream().map(WebElement::getText).collect(Collectors.toList());
+        List<String> sortedList = list.stream().sorted((l1, l2) -> l2.compareTo(l1)).collect(Collectors.toList());
+
+        return list.equals(sortedList);
     }
 }
