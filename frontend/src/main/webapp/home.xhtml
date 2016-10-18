@@ -22,8 +22,8 @@
         <h1>News</h1>
         <hr/>
 
-        <h:form>
-            <h:selectOneMenu value="#{newsController.sortValue}"
+        <h:form id="sortForm">
+            <h:selectOneMenu value="#{newsController.sortValue}" id="option"
                              onchange="submit()">
                 <f:selectItem itemValue="time" itemLabel="time"/>
                 <f:selectItem itemValue="score" itemLabel="score"/>

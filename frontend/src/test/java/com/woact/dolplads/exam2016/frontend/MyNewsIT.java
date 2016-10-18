@@ -1,7 +1,7 @@
 package com.woact.dolplads.exam2016.frontend;
 
 import com.woact.dolplads.exam2016.backend.entity.User;
-import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
+import com.woact.dolplads.exam2016.frontend.pages.UserDetailsPageObject;
 import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
@@ -67,8 +67,74 @@ public class MyNewsIT extends SeleniumTestBase {
     }
 
     @Test
-    public void testNewsAfterLogOut() {
+    public void testNewsAfterLogout() throws Exception {
+        LoginPageObject loginPageObject = homePageObject.toLogin();
+        User u = createUniqueUserThenLogIn();
+        homePageObject.createNews("someText1");
+        homePageObject.createNews("someText2");
+        assertEquals(2, homePageObject.getNumberOfNews(u.getUserName()));
+        homePageObject.logOut();
+        assertEquals(2, homePageObject.getNumberOfNews(u.getUserName()));
 
+        Thread.sleep(2000);
+    }
+
+    @Test
+    public void testUserDetails() throws Exception {
+        User u = createUniqueUserThenLogIn();
+        homePageObject.createNews("testtext");
+        UserDetailsPageObject userDetails = homePageObject.toUserDetails(u.getUserName());
+
+        Thread.sleep(5000);
+        assertTrue(userDetails.isOnPage());
+    }
+
+    @Test
+    public void testCanVote() throws Exception {
+        User u = createUniqueUserThenLogIn();
+        homePageObject.createNews("toastgoodnow");
+
+        boolean voteWorked = homePageObject.voteForNews(u.getUserName());
+        assertTrue(voteWorked);
+
+        homePageObject.logOut();
+        voteWorked = homePageObject.voteForNews(u.getUserName());
+        assertFalse(voteWorked);
+
+        loginExistingUser(u);
+        voteWorked = homePageObject.voteForNews(u.getUserName());
+        assertTrue(voteWorked);
+    }
+
+    /**
+     * sort posts by time
+     * ◦ assert that the most recent post has a 0 score ◦ upvote the post
+     * ◦ verify that post has now score +1 ◦ downvote the post
+     * ◦ verify that post has now score -1 ◦ unvote the post
+     * ◦ verify that post has now score 0
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testScore() throws Exception {
+        User u = createUniqueUserThenLogIn();
+        homePageObject.createNews("coffecoffecoffe");
+        homePageObject.sortNewsBy("time");
+        Thread.sleep(3000);
+        assertEquals(0, homePageObject.getScoreForFirstPost());
+
+        homePageObject.voteForFirstPost(1);
+        assertEquals(1, homePageObject.getScoreForFirstPost());
+
+        homePageObject.voteForFirstPost(-1);
+        assertEquals(-1, homePageObject.getScoreForFirstPost());
+        Thread.sleep(2000);
+        homePageObject.voteForFirstPost(0);
+        assertEquals(0, homePageObject.getScoreForFirstPost());
+
+        //homePageObject.sortNewsBy("score");
+        Thread.sleep(2000);
+        //new Select(driver.findElement(By.id("createUserForm:country"))).selectByVisibleText(country);
     }
 
 

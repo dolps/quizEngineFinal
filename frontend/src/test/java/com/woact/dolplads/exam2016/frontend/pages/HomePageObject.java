@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.woact.dolplads.exam2016.frontend.testUtils.PageObject;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -71,6 +72,71 @@ public class HomePageObject extends PageObject {
         getElement(form + "postText").sendKeys(text);
         getElement(form + "save").click();
         waitForPageToLoad();
+    }
+
+
+    public UserDetailsPageObject toUserDetails(String userName) {
+        List<WebElement> elements = getDriver().findElements(
+                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + userName + "')]")
+        );
+        elements.get(0).click();
+        waitForPageToLoad();
+
+        return new UserDetailsPageObject(getDriver());
+    }
+
+    public void sortNewsBy(String sortOpt) {
+        new Select(getDriver().findElement(By.id("sortForm:option"))).selectByVisibleText(sortOpt);
+    }
+
+
+    public boolean voteForNews(String userName) { //  and @checked='checked'
+        List<WebElement> elements = getDriver().findElements(
+                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + userName + "')]/td[5]/form/table/tbody/tr/td/input[@type='radio']"));
+
+        if (elements.isEmpty()) {
+            return false;
+        }
+        elements.get(0).click();
+        waitForPageToLoad();
+
+
+        elements = getDriver().findElements(
+                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + userName + "')]/td[5]/form/table/tbody/tr/td/input[@type='radio' and @checked='checked']"));
+
+        waitForPageToLoad();
+        return !elements.isEmpty();
+    }
+
+    public boolean voteForFirstPost(int voteValue) {
+        int val;
+        if (voteValue == 1)
+            val = 1;
+        else if (voteValue == 0)
+            val = 2;
+        else val = 3;
+
+        List<WebElement> elements = getDriver().findElements(
+                By.xpath("//*[@id=\"eventsCreated\"]/tbody/tr[1]/td[5]/form/table/tbody/tr/td[" + val + "]/input[@type='radio']"));
+
+        if (elements.isEmpty()) {
+            return false;
+        }
+        elements.get(0).click();
+        waitForPageToLoad();
+        return true;
+    }
+
+    public int getScoreForFirstPost() {
+        List<WebElement> elements = getDriver().findElements(
+                By.xpath("//*[@id=\"eventsCreated\"]/tbody/tr[1]/td[4]")
+        );
+
+        if (!elements.isEmpty()) {
+            String val = elements.get(0).getText();
+            return Integer.parseInt(val);
+        }
+        return 0;
     }
 
 
