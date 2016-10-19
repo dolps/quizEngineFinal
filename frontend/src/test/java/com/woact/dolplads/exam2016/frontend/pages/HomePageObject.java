@@ -76,8 +76,8 @@ public class HomePageObject extends PageObject {
 
     public UserDetailsPageObject toUserDetails(String userName) {
         List<WebElement> elements = getDriver().findElements(
-                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + userName + "')]")
-        );
+                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + userName + "')]/td[2]/a"));
+        System.out.println("element found " + elements.get(0).getText());
         elements.get(0).click();
         waitForPageToLoad();
 
@@ -153,8 +153,8 @@ public class HomePageObject extends PageObject {
 
     public NewsDetailsPageObject toNewsDetails(String userName) {
         List<WebElement> elements = getDriver().findElements(
-                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + userName + "')]/td[3]")
-        );
+                By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2],'" + userName + "')]/td[3]/a"));
+        System.out.println("element found: " + elements.get(0).getText());
         elements.get(0).click();
 
         waitForPageToLoad();

@@ -26,6 +26,7 @@ public class NewsDetailsPageObject extends PageObject {
 
     @Override
     public boolean isOnPage() {
+        System.out.println(getDriver().getTitle());
         return getDriver().getTitle().contains(title);
     }
 
@@ -45,7 +46,8 @@ public class NewsDetailsPageObject extends PageObject {
         waitForPageToLoad();
     }
 
-    public boolean moderateComment(String userName) {
+
+    public boolean moderateCommentByUser(String userName) {
         List<WebElement> elements = getDriver().findElements(
                 By.xpath("//table[@id='commentsTable']//tbody//tr[contains(td[1],'" + userName + "')]/td[5]/form/input[@type='checkbox']")
         );
@@ -53,6 +55,13 @@ public class NewsDetailsPageObject extends PageObject {
             return false;
         }
         elements.get(0).click();
+        int nOfElements = elements.size();
+        for (int i = 1; i < nOfElements; i++) {
+            elements = getDriver().findElements(
+                    By.xpath("//table[@id='commentsTable']//tbody//tr[contains(td[1],'" + userName + "')]/td[5]/form/input[@type='checkbox']"));
+            elements.get(i).click();
+        }
+
         waitForPageToLoad();
         elements = getDriver().findElements(
                 By.xpath("//table[@id='commentsTable']//tbody//tr[contains(td[1],'" + userName + "')]/td[5]/form/input[@type='checkbox'  and @checked='checked']"));
