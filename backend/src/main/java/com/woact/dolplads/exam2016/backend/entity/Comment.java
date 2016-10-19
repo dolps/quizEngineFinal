@@ -1,8 +1,4 @@
 package com.woact.dolplads.exam2016.backend.entity;
-
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
 
 /**
@@ -10,8 +6,6 @@ import javax.persistence.*;
  */
 
 @Entity
-@Getter
-@Setter
 public class Comment extends AbstractPost {
     private boolean moderated;
     private final String moderatedText = "This coment has been moderated";
@@ -24,19 +18,32 @@ public class Comment extends AbstractPost {
     }
 
 
-    public String getText() {
-        if (!moderated) {
-            return super.getText();
-        }
-
-        return moderatedText;
-    }
-
     public int getScore() {
         if (moderated) {
             return -10;
         } else {
             return super.getScore();
         }
+    }
+
+    public boolean isModerated() {
+        return moderated;
+    }
+
+    public void setModerated(boolean moderated) {
+        this.moderated = moderated;
+    }
+
+    public String getModeratedText() {
+        return moderatedText;
+    }
+
+    public String getText() {
+        if (!moderated) {
+            return super.getText();
+        }
+
+
+        return moderatedText;
     }
 }

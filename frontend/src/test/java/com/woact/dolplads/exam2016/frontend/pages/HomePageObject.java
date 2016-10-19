@@ -1,6 +1,5 @@
 package com.woact.dolplads.exam2016.frontend.pages;
 
-import lombok.extern.java.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,8 +12,8 @@ import java.util.stream.Collectors;
 
 /**
  * Created by dolplads on 01/10/16.
+ * model for the homepage
  */
-@Log
 public class HomePageObject extends PageObject {
     private final String title = "Home Page";
 
@@ -168,7 +167,6 @@ public class HomePageObject extends PageObject {
 
     public int numberOfEventsOnHomePage() {
         int rowCount = getDriver().findElements(By.xpath("//table[@id='eventsCreated']/tbody/tr")).size();
-        log.log(Level.INFO, "number of events: " + rowCount);
         return rowCount;
     }
 
@@ -198,7 +196,6 @@ public class HomePageObject extends PageObject {
         boolean attending = isAttending(eventName);
         if (attending == value) return;
 
-        log.log(Level.INFO, "trying to set attendance");
         List<WebElement> elements = getDriver().findElements(
                 By.xpath("//table[@id='eventsCreated']//tbody//tr[contains(td[2], '" + eventName + "')]/td[6]/form/input[@type='checkbox']")
         );

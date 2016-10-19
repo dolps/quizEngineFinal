@@ -2,14 +2,12 @@ package com.woact.dolplads.exam2016.frontend.controller;
 
 import com.woact.dolplads.exam2016.backend.entity.User;
 import com.woact.dolplads.exam2016.backend.service.UserEJB;
-import lombok.extern.java.Log;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * Created by dolplads on 18/10/2016.

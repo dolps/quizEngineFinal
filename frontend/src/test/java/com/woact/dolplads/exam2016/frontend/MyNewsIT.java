@@ -2,7 +2,6 @@ package com.woact.dolplads.exam2016.frontend;
 
 import com.woact.dolplads.exam2016.backend.entity.User;
 import com.woact.dolplads.exam2016.frontend.pages.*;
-import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -15,8 +14,8 @@ import static org.junit.Assert.*;
 
 /**
  * Created by dolplads on 01/10/16.
+ * Main Integration tests
  */
-@Log
 public class MyNewsIT extends SeleniumTestBase {
     private HomePageObject homePageObject;
     private static final AtomicLong counter = new AtomicLong(System.currentTimeMillis());

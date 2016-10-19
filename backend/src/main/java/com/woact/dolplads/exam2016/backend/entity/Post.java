@@ -1,8 +1,5 @@
 package com.woact.dolplads.exam2016.backend.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,8 +18,6 @@ import java.util.List;
         @NamedQuery(name = Post.COMMENTS_BY_POST, query = "select post.comments from Post post where post.id = :postId")
 })
 @Entity
-@Getter
-@Setter
 public class Post extends AbstractPost {
     public static final String POSTS_BY_CREATION_DATE = "post_by_creation_date";
     public static final String POSTS_BY_SCORE = "post_by_score";
@@ -40,5 +35,13 @@ public class Post extends AbstractPost {
     @PostConstruct
     public void init() {
         comments = new ArrayList<>();
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

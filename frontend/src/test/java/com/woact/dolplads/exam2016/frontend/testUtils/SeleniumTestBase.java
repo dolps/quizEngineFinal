@@ -1,6 +1,5 @@
 package com.woact.dolplads.exam2016.frontend.testUtils;
 
-import lombok.extern.java.Log;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -14,7 +13,6 @@ import java.nio.file.Paths;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
-@Log
 public abstract class SeleniumTestBase {
 
     private static WebDriver driver;

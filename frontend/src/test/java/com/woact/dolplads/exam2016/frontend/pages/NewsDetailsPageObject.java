@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by dolplads on 19/10/2016.
+ * model for news Details page
  */
 public class NewsDetailsPageObject extends PageObject {
     private String title = "News Details";

@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 
 /**
  * Created by dolplads on 18/10/2016.
+ * Model for user detail page
  */
 public class UserDetailsPageObject extends PageObject {
     private String title = "Userdetails";

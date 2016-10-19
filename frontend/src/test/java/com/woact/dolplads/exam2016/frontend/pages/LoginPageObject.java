@@ -1,6 +1,5 @@
 package com.woact.dolplads.exam2016.frontend.pages;
 
-import lombok.extern.java.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,8 +7,9 @@ import com.woact.dolplads.exam2016.frontend.testUtils.PageObject;
 
 /**
  * Created by dolplads on 01/10/16.
+ * <p>
+ * Model for loginPage
  */
-@Log
 public class LoginPageObject extends PageObject {
     private String title = "Login";
     private final String url = getBaseUrl() + "/newUser.jsf";

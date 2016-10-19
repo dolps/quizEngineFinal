@@ -1,8 +1,6 @@
 package com.woact.dolplads.exam2016.backend.entity;
 
 import com.woact.dolplads.exam2016.backend.annotations.NotEmpty;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
@@ -14,8 +12,6 @@ import java.util.*;
  */
 
 @MappedSuperclass
-@Getter
-@Setter
 public abstract class AbstractPost {
     @Id
     @GeneratedValue
@@ -64,5 +60,49 @@ public abstract class AbstractPost {
             score += vote.getValue();
         }
         return score;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

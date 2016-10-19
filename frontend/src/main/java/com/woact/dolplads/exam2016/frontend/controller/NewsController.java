@@ -1,13 +1,8 @@
 package com.woact.dolplads.exam2016.frontend.controller;
 
-import com.woact.dolplads.exam2016.backend.entity.AbstractPost;
 import com.woact.dolplads.exam2016.backend.entity.Post;
 import com.woact.dolplads.exam2016.backend.entity.User;
-import com.woact.dolplads.exam2016.backend.entity.Vote;
 import com.woact.dolplads.exam2016.backend.service.PostEJB;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.java.Log;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,11 +12,9 @@ import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 
 /**
  * Created by dolplads on 17/10/2016.

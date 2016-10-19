@@ -5,7 +5,6 @@ import com.woact.dolplads.exam2016.backend.entity.Post;
 import com.woact.dolplads.exam2016.backend.entity.User;
 import com.woact.dolplads.exam2016.backend.service.PostEJB;
 import com.woact.dolplads.exam2016.backend.service.UserEJB;
-import lombok.extern.java.Log;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,7 +19,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * Created by dolplads on 18/10/2016.

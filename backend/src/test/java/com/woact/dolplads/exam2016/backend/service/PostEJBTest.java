@@ -3,7 +3,6 @@ package com.woact.dolplads.exam2016.backend.service;
 import com.woact.dolplads.exam2016.backend.entity.*;
 import com.woact.dolplads.exam2016.backend.testUtils.ArquillianTestHelper;
 import com.woact.dolplads.exam2016.backend.testUtils.DeleterEJB;
-import lombok.extern.java.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
