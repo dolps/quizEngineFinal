@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Created by dolplads on 12/10/2016.
+ * CRUD interface
  */
 public interface CRUD<E, T> {
     T save(@Valid @NotNull T entity);
@@ -15,6 +16,4 @@ public interface CRUD<E, T> {
     void remove(@NotNull T entity);
 
     List<T> findAll();
-
-
 }

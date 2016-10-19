@@ -14,11 +14,6 @@
     <ui:define name="title">Userdetails</ui:define>
 
     <ui:define name="content">
-
-        <ul>
-            <li>#{userDetailsController.userName}</li>
-        </ul>
-
         Welcome to the userdetailspage
         <c:set var="user" scope="request" value="#{userDetailsController.requestedUser}"></c:set>
 

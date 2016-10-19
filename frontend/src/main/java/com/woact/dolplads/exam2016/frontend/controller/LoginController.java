@@ -12,24 +12,18 @@ import java.io.Serializable;
 
 /**
  * Created by dolplads on 12/10/2016.
+ * <p>
+ * Handles the user session
  */
 @SessionScoped
 @Named
 public class LoginController implements Serializable {
+    private final String home = "home.xhtml";
     private User sessionUser;
     @EJB
     private UserEJB userEJB;
     @Inject
     private CredentialsController credentials;
-
-    @PostConstruct // TODO: 17/10/2016 remove when done testing
-    public void testInit() {
-        User u = new User("test", "test", "test", "test");
-        u.setPasswordHash("hash");
-        u.setSalt("salt");
-        userEJB.save(u);
-    }
-
 
     public String logIn() {
         User user = userEJB.login(credentials.getUserName(), credentials.getPassword());
@@ -38,7 +32,7 @@ public class LoginController implements Serializable {
             sessionUser = user;
             sessionUser.setLoggedIn(true);
 
-            return "home.xhtml";
+            return home;
         }
 
         return null;
@@ -46,7 +40,7 @@ public class LoginController implements Serializable {
 
     public String logOut() {
         sessionUser = null;
-        return "home.xhtml";
+        return home;
     }
 
     public User getSessionUser() {

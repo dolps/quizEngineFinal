@@ -1,164 +1,117 @@
 package com.woact.dolplads.exam2016.backend.service;
 
 import com.woact.dolplads.exam2016.backend.entity.*;
-import lombok.extern.java.Log;
+import com.woact.dolplads.exam2016.backend.repository.CommentRepository;
+import com.woact.dolplads.exam2016.backend.repository.PostRepository;
+import com.woact.dolplads.exam2016.backend.repository.UserRepository;
+import com.woact.dolplads.exam2016.backend.repository.VoteRepository;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Created by dolplads on 17/10/2016.
+ * <p>
+ * PostEJB service layer, handles the logic and deligates persistance to the repository
  */
-@Log
 @SuppressWarnings("unchecked")
 @Stateless
 public class PostEJB {
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Inject
+    private PostRepository postRepository;
+    @Inject
+    private CommentRepository commentRepository;
+    @Inject
+    private UserRepository userRepository;
+    @Inject
+    private VoteRepository voteRepository;
 
-
-    public Post createPost(String userName, Post post) {
-        User user = entityManager.find(User.class, userName);
+    public Post createPost(@NotNull String userName, @NotNull Post post) {
+        User user = userRepository.findById(userName);
         post.setUser(user);
         user.getPosts().add(post);
-        entityManager.persist(post);
+        postRepository.save(post);
 
         return post;
     }
 
-    public Comment createCommentForPost(Long postId, Comment comment) {
-        Post post = entityManager.find(Post.class, postId);
+    public Comment createCommentForPost(@NotNull Long postId, @NotNull Comment comment) {
+        Post post = postRepository.findById(postId);
         post.getComments().add(comment);
-        entityManager.persist(comment);
 
-        return comment;
+        return commentRepository.save(comment);
     }
 
-    public void voteForPost(String userName, Long postId, int value) {
-        log.log(Level.INFO, "voted for post! " + postId + "with value " + value);
-        User user = entityManager.find(User.class, userName);
-        Post post = entityManager.find(Post.class, postId);
-        Vote vote = null;
+    public void voteForPost(@NotNull String userName, @NotNull Long postId, int value) {
+        User user = userRepository.findById(userName);
+        Post post = postRepository.findById(postId);
+        if (user == null || post == null) return;
 
-        if (user == null || post == null) {
-            throw new IllegalArgumentException("user or post dont exists");
-        }
-
-        for (Vote v : post.getVotes()) {
-            log.log(Level.INFO, "traktor" + v.getUser().getUserName());
-            if (v.getUser().getUserName().equals(userName)) {
-                vote = entityManager.find(Vote.class, v.getId());
-                vote.setValue(value);
-                break;
-            }
-        }
-        if (vote == null) {
-            Vote v = new Vote(user, value);
-            v.setPostId(postId);
-            entityManager.persist(v);
-            post.getVotes().add(v);
+        Vote vote = voteRepository.findByUserAndPost(userName, postId);
+        if (vote != null) {
+            vote.setValue(value);
+        } else {
+            post.getVotes().add(voteRepository.save(new Vote(user, postId, value)));
         }
     }
 
-    public Post findPost(Long id) {
-        return entityManager.find(Post.class, id);
+    public void voteForComment(@NotNull String userName, @NotNull Long commentId, int value) {
+        User user = userRepository.findById(userName);
+        Comment comment = commentRepository.findById(commentId);
+        if (user == null || comment == null) return;
+
+        if (comment.isModerated()) {
+            return;
+        }
+
+        Vote vote = voteRepository.findByUserAndPost(userName, commentId);
+        if (vote != null) {
+            vote.setValue(value);
+        } else {
+            comment.getVotes().add(voteRepository.save(new Vote(user, commentId, value)));
+        }
     }
 
-    public void unVotePost(String userName, Long postId) {
-        Post p = entityManager.find(Post.class, postId);
-        p.removeVote(userName);
-    }
-
-    public List<Post> findAllPostsByTime() {
-        return entityManager
-                .createQuery("select post from Post post order by (post.creationDate) desc")
-                .getResultList();
-    }
-
-    public List<Post> findAllPostsByScore() {
-        return entityManager
-                .createQuery("select post from Post post order by (post.score) desc", Post.class)
-                .getResultList();
-    }
-
-    public List<Comment> findAllComments() {
-        return entityManager.createQuery("select comment from Comment comment")
-                .getResultList();
-    }
-
-    public void moderateComment(String userName, Long commentId, boolean value) {
-        Comment comment = entityManager.find(Comment.class, commentId);
+    public void moderateComment(@NotNull String userName, @NotNull Long commentId, boolean value) {
+        Comment comment = commentRepository.findById(commentId);
         if (comment.getUser().getUserName().equals(userName)) {
             comment.setModerated(value);
             voteForComment(userName, commentId, 0);
         }
     }
 
-    public Comment findComment(Long commentId) {
-        return entityManager.find(Comment.class, commentId);
-    }
-
-    public void voteForComment(String userName, Long commentId, int value) {
-        User user = entityManager.find(User.class, userName);
-        Comment comment = entityManager.find(Comment.class, commentId);
-        Vote vote = null;
-
-        if (user == null || comment == null) {
-            throw new IllegalArgumentException("user or comment dont exists");
-        }
-        if (comment.isModerated()) {
-            return;
+    public int findVoteValueForPost(@NotNull String userName,@NotNull Long postId) {
+        Vote v = voteRepository.findByUserAndPost(userName, postId);
+        if (v != null) {
+            return v.getValue();
         }
 
-        for (Vote v : comment.getVotes()) {
-            log.log(Level.INFO, "traktor" + v.getUser().getUserName());
-            if (v.getUser().getUserName().equals(userName)) {
-                vote = entityManager.find(Vote.class, v.getId());
-                vote.setValue(value);
-                break;
-            }
-        }
-        if (vote == null) {
-            Vote v = new Vote(user, value);
-            v.setPostId(commentId);
-            entityManager.persist(v);
-            comment.getVotes().add(v);
-        }
-    }
-
-    public int findVoteValueForPost(String userName, Long postId) {
-        log.log(Level.INFO, "finding votes for post " + postId + "user " + userName);
-        List<Vote> votes = entityManager
-                .createQuery("select vote from Vote vote where vote.user.userName = :userName and vote.postId = :postId")
-                .setParameter("userName", userName)
-                .setParameter("postId", postId)
-                .getResultList();
-
-        if (!votes.isEmpty()) {
-            return votes.get(0).getValue();
-        }
         return 0;
     }
 
     public List<Comment> findCommentsByPost(Long requestedPostId) {
-        return entityManager.createQuery("select post.comments from Post post where post.id = :postId")
-                .setParameter("postId", requestedPostId)
-                .getResultList();
+        return postRepository.findCommentsByPost(requestedPostId);
     }
 
-    public int findVoteValueForComment(String userName, Long commentId) {
-        List<Vote> votes = entityManager
-                .createQuery("select vote from Vote vote where vote.user.userName = :userName and vote.postId = :commentId")
-                .setParameter("userName", userName)
-                .setParameter("commentId", commentId)
-                .getResultList();
+    public Post findPost(Long id) {
+        return postRepository.findById(id);
+    }
 
-        if (!votes.isEmpty()) {
-            return votes.get(0).getValue();
-        }
-        return 0;
+    public List<Post> findAllPostsByTime() {
+        return postRepository.findAllPostsByTime();
+    }
+
+    public List<Post> findAllPostsByScore() {
+        return postRepository.findAllPostsByScore();
+    }
+
+    public Comment findComment(Long commentId) {
+        return commentRepository.findById(commentId);
+    }
+
+    public List<Comment> findAllComments() {
+        return commentRepository.findAll();
     }
 }

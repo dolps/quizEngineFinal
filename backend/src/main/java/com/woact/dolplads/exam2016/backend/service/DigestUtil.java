@@ -20,9 +20,6 @@ public class DigestUtil {
     }
 
     public static String computeHash(String password, String salt) {
-
-        String combined = password + salt;
-
-        return DigestUtils.sha256Hex(combined);
+        return DigestUtils.sha256Hex(password + salt);
     }
 }

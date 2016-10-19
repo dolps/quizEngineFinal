@@ -19,7 +19,6 @@ import static org.junit.Assert.*;
 /**
  * Created by dolplads on 17/10/2016.
  */
-@Log
 public class PostEJBTest extends ArquillianTestHelper {
     private static final AtomicLong counter = new AtomicLong(System.currentTimeMillis());
     @EJB
@@ -40,8 +39,6 @@ public class PostEJBTest extends ArquillianTestHelper {
         deleterEJB.deleteEntities(User.class);
 
         persistUser();
-
-        log.log(Level.INFO, "prepared DB");
     }
 
     @Test
@@ -108,7 +105,6 @@ public class PostEJBTest extends ArquillianTestHelper {
         postEJB.voteForPost(testUser.getUserName(), post.getId(), 1);
         assertEquals(1, postEJB.findPost(post.getId()).getScore());
 
-        postEJB.unVotePost(testUser.getUserName(), post.getId());
         postEJB.voteForPost(testUser.getUserName(), post.getId(), 0);
         assertEquals(0, postEJB.findPost(post.getId()).getScore());
     }
@@ -151,9 +147,6 @@ public class PostEJBTest extends ArquillianTestHelper {
         postEJB.createPost(testUser.getUserName(), p1);
         postEJB.createPost(testUser.getUserName(), p2);
 
-        log.log(Level.INFO, "p2 has id: " + p2.getId());
-        log.log(Level.INFO, "p1 has id: " + p1.getId());
-
         postEJB.voteForPost(testUser.getUserName(), p1.getId(), 1);
         postEJB.voteForPost(testUser.getUserName(), p2.getId(), -1);
 
@@ -166,12 +159,7 @@ public class PostEJBTest extends ArquillianTestHelper {
         assertEquals(-1, postEJB.findPost(p1.getId()).getScore());
         assertEquals(1, postEJB.findPost(p2.getId()).getScore());
 
-        log.log(Level.INFO, "p2 still has id: " + p2.getId());
-        log.log(Level.INFO, "p1 still has id: " + p1.getId());
-
         posts = postEJB.findAllPostsByScore();
-        log.log(Level.INFO, "postScores" + posts.get(0).getId() + " val " + posts.get(0).getScore());
-        log.log(Level.INFO, "postScores" + posts.get(1).getId() + " val " + posts.get(1).getScore());
         assertEquals(p2.getId(), posts.get(0).getId());
     }
 
@@ -242,198 +230,6 @@ public class PostEJBTest extends ArquillianTestHelper {
 
         assertEquals(1, postEJB.findComment(comment.getId()).getScore());
     }
-/*
-    @Test
-    public void voteFor() throws Exception {
-        AbstractPost post = getValidPost();
-        post = postEJB.createPost(post);
-
-
-        postEJB.votePost(testUser.getUserName(), post.getId(), 1);
-        post = postEJB.findById(post.getId());
-
-        //assertEquals(1, post.getVotes().size());
-        //assertEquals(1, post.getVotes().get(0).getVoteValue());
-    }
-
-    @Test
-    public void voteAgainst() throws Exception {
-        AbstractPost post = getValidPost();
-        post = postEJB.createPost(post);
-
-        postEJB.votePost(testUser.getUserName(), post.getId(), -1);
-        post = postEJB.findById(post.getId());
-
-        //assertEquals(1, post.getVotes().size());
-        //assertEquals(-1, post.getVotes().get(0).getVoteValue());
-    }
-
-    @Test
-    public void cannotVoteForTwice() throws Exception {
-        AbstractPost post = getValidPost();
-        post = postEJB.createPost(post);
-
-        postEJB.votePost(testUser.getUserName(), post.getId(), 1);
-        postEJB.votePost(testUser.getUserName(), post.getId(), 1);
-
-        post = postEJB.findById(post.getId());
-
-        //assertEquals(1, post.getVotes().size());
-    }
-
-    @Test
-    public void cannotVoteAgainstTwice() throws Exception {
-        AbstractPost post = getValidPost();
-        post = postEJB.createPost(post);
-
-        postEJB.votePost(testUser.getUserName(), post.getId(), -1);
-        postEJB.votePost(testUser.getUserName(), post.getId(), -1);
-
-        post = postEJB.findById(post.getId());
-
-        //assertEquals(1, post.getVotes().size());
-    }
-
-    @Test
-    public void unVote() throws Exception {
-        AbstractPost post = getValidPost();
-        post = postEJB.createPost(post);
-
-        postEJB.votePost(testUser.getUserName(), post.getId(), 1);
-        post = postEJB.findById(post.getId());
-        //assertEquals(1, post.getVotes().size());
-
-        //postEJB.unVotePost(testUser.getUserName(), post.getId());
-        post = postEJB.findById(post.getId());
-        //assertEquals(0, post.getVotes().size());
-    }
-
-    @Test
-    public void testChangeVote() throws Exception {
-        AbstractPost post = getValidPost();
-        post = postEJB.createPost(post);
-
-        postEJB.votePost(testUser.getUserName(), post.getId(), 1);
-        post = postEJB.findById(post.getId());
-        //assertEquals(1, post.getVotes().get(0).getVoteValue());
-
-        postEJB.votePost(testUser.getUserName(), post.getId(), -1);
-        post = postEJB.findById(post.getId());
-        //assertEquals(-1, post.getVotes().get(0).getVoteValue());
-
-        //postEJB.unVotePost(testUser.getUserName(), post.getId());
-        post = postEJB.findById(post.getId());
-        //assertEquals(0, post.getVotes().size());
-    }
-
-    @Test
-    public void getAllPostByTime() throws Exception {
-        AbstractPost post1 = getValidPost();
-        AbstractPost post2 = getValidPost();
-
-        postEJB.createPost(post1);
-        Thread.sleep(1000); // 1 second delay should be enough noticed that 1/2 second could give trouble
-        postEJB.createPost(post2);
-
-        post1 = postEJB.findById(post1.getId());
-        post2 = postEJB.findById(post2.getId());
-
-        // should reveal if transactions have been done in wrong order
-        assertTrue(post1.getCreationDate().before(post2.getCreationDate()));
-
-        List<AbstractPost> posts = postEJB.getAllPostByTime();
-
-        assertTrue(posts.get(0).getCreationDate()
-                .compareTo(posts.get(1).getCreationDate()) > 0);
-
-        AbstractPost latestAdded = posts.get(0);
-        assertEquals(post2.getId(), latestAdded.getId());
-    }
-
-    @Test
-    public void getAllPostsByScore() throws Exception {
-        AbstractPost post1 = getValidPost();
-        AbstractPost post2 = getValidPost();
-
-        post1 = postEJB.createPost(post1);
-        post2 = postEJB.createPost(post2);
-
-        postEJB.votePost(testUser.getUserName(), post1.getId(), 10); // post1 score = 1
-        post1 = postEJB.findById(post1.getId());
-        assertEquals(1, post1.getScore());
-
-        postEJB.votePost(testUser.getUserName(), post2.getId(), -1); // post2 score = -1
-        post1 = postEJB.findById(post2.getId());
-        assertEquals(-1, post2.getScore());
-
-        List<AbstractPost> posts = postEJB.getAllPostsByScore();
-        assertEquals(post1.getId(), posts.get(0).getId());
-
-        postEJB.votePost(testUser.getUserName(), post1.getId(), -1); // post1 score = -1
-        postEJB.votePost(testUser.getUserName(), post2.getId(), 1); // post2 score = 1
-        posts = postEJB.getAllPostsByScore();
-
-        assertEquals(post2.getId(), posts.get(0).getId());
-    }
-
-    @Test // TODO: 17/10/2016 maybe add back to back ref?
-    public void createComment() throws Exception {
-        AbstractPost post1 = getValidPost();
-        postEJB.createPost(post1);
-
-        Comment comment = new Comment(testUser, post1, "comment");
-        comment.setModerated(true);
-        postEJB.createComment(comment);
-        assertEquals(1, postEJB.getAllComments().size());
-        assertEquals(1, postEJB.getAllPostByTime().size());
-        assertNotNull(comment.getId());
-
-        List<Comment> comments = postEJB.findCommentsByPost(post1.getId());
-        assertEquals(1, comments.size());
-        assertEquals(post1.getId(), comments.get(0).getPost().getId());
-        assertEquals(comments.get(0).isModerated(), true);
-    }
-
-    @Test
-    public void moderateOwn() throws Exception {
-        AbstractPost post = getValidPost();
-        postEJB.createPost(post);
-
-        Comment comment = new Comment(testUser, post, "comment");
-        comment = postEJB.createComment(comment);
-        assertFalse(comment.isModerated());
-
-        postEJB.moderateComment(testUser.getUserName(), comment.getId(), true);
-        comment = postEJB.findCommentById(comment.getId());
-        assertTrue(comment.isModerated());
-    }
-
-    @Test
-    public void failModerateOther() throws Exception {
-        AbstractPost post = getValidPost();
-        postEJB.createPost(post);
-        Comment comment = new Comment(testUser, post, "comment");
-        comment = postEJB.createComment(comment);
-        assertFalse(comment.isModerated());
-
-        persistUser();
-
-        postEJB.moderateComment(testUser.getUserName(), comment.getId(), true);
-        comment = postEJB.findCommentById(comment.getId());
-        assertFalse(comment.isModerated());
-    }
-
-    @Test
-    public void voteForComment() throws Exception {
-        AbstractPost post = getValidPost();
-        postEJB.createPost(post);
-        Comment comment = new Comment(testUser, post, "comment");
-        comment = postEJB.createComment(comment);
-
-        postEJB.voteComment(testUser.getUserName(), comment.getId(), 1);
-
-    }
-    */
 
     private void persistUser() {
         User user = new User("userName" + counter.incrementAndGet(), "testUser", "us", "userson");

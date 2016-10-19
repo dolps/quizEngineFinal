@@ -12,11 +12,11 @@ import java.util.logging.Logger;
 
 /**
  * Created by dolplads on 13/10/2016.
+ * <p>
+ * Requestscoped named controller for creating user entites
  */
 @Model
 public class CreateUserController {
-    @Inject
-    private Logger logger;
     @EJB
     private UserEJB userEJB;
     @Inject
@@ -29,7 +29,6 @@ public class CreateUserController {
     public void init() {
         user = new User();
     }
-
 
 
     public String create() {

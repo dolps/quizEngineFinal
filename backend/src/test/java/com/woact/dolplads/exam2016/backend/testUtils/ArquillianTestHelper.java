@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 
 /**
  * Created by dolplads on 25/09/16.
+ * <p>
+ * Adds needed packages
  */
 @RunWith(Arquillian.class)
 public abstract class ArquillianTestHelper {

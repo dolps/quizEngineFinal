@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 /**
@@ -13,8 +14,6 @@ import java.util.*;
  */
 
 @MappedSuperclass
-//@Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 @Setter
 public abstract class AbstractPost {
@@ -29,15 +28,14 @@ public abstract class AbstractPost {
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Vote> votes;
 
+    @Size(max = 125)
     @NotEmpty
     private String text;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    private int score;
 
-    // teststage
-    private int valueByUser;
+    private int score;
 
     protected AbstractPost() {
     }
@@ -66,18 +64,5 @@ public abstract class AbstractPost {
             score += vote.getValue();
         }
         return score;
-    }
-
-    public void removeVote(String userName) {
-        Vote toRemove = null;
-        for (Vote v : votes) {
-            if (v.getUser().getUserName().equals(userName)) {
-                toRemove = v;
-                break;
-            }
-        }
-        if (toRemove != null) {
-            votes.remove(toRemove);
-        }
     }
 }

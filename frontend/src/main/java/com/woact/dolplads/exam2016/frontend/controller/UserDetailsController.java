@@ -13,9 +13,10 @@ import java.util.logging.Level;
 
 /**
  * Created by dolplads on 18/10/2016.
+ * <p>
+ * Model for the user details page
  */
 @Model
-@Log
 public class UserDetailsController {
     @EJB
     private UserEJB userEJB;
@@ -36,12 +37,6 @@ public class UserDetailsController {
     }
 
     public String getUserName() {
-        /*
-        Map<String, String> params =
-                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        log.log(Level.INFO, "username: " + params.get("username"));
-        return params.get("username");
-        */
         return userName;
     }
 

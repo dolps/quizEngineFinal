@@ -22,14 +22,12 @@ import static org.junit.Assert.*;
  */
 public class UserEJBTest extends ArquillianTestHelper {
     private static final AtomicLong counter = new AtomicLong(System.currentTimeMillis());
-    @Inject
-    private Logger logger;
     @EJB
     private UserEJB userEJB;
     @EJB
-    private DeleterEJB deleterEJB;
-    @EJB
     private PostEJB postEJB;
+    @EJB
+    private DeleterEJB deleterEJB;
     @Inject
     private Validator validator;
 
@@ -40,9 +38,7 @@ public class UserEJBTest extends ArquillianTestHelper {
         deleterEJB.deleteEntities(Comment.class);
         deleterEJB.deleteEntities(Vote.class);
         deleterEJB.deleteEntities(User.class);
-        logger.log(Level.INFO, "preparing userservice test");
     }
-
 
     @Test
     public void testKarmaWithModeration() throws Exception {
@@ -91,9 +87,8 @@ public class UserEJBTest extends ArquillianTestHelper {
 
 
     /**
-     * Tests not described in exam document
-     *
-     * @throws Exception
+     * Following tests are not described in exam document,
+     * just for own sake during development
      */
     @Test
     public void save() throws Exception {

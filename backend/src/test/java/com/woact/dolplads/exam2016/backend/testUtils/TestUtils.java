@@ -8,16 +8,13 @@ import java.util.logging.Logger;
 
 /**
  * Created by dolplads on 12/10/2016.
+ * <p>
+ * A little util that can be used in tests
  */
 public class TestUtils {
     private final static Logger logger = Logger.getLogger(TestUtils.class.getSimpleName());
     private static Validator validator;
 
-    /**
-     * @param entityInstance
-     * @param property
-     * @return the number of failed constraint for a given property
-     */
     public static int violations(Object entityInstance, String property) {
         Set<ConstraintViolation<Object>> violations = validator.validateProperty(entityInstance, property);
         logViolations(violations);
@@ -25,18 +22,6 @@ public class TestUtils {
         return violations.size();
     }
 
-    private static void logViolations(Set<ConstraintViolation<Object>> violations) {
-        violations.forEach(v -> {
-            logger.log(Level.INFO, v.toString() + "\n");
-        });
-    }
-
-    /**
-     * Validates all attributes for a given object
-     *
-     * @param entityInstance
-     * @return number of violations
-     */
     public static int violations(Object entityInstance) {
         if (validator == null) {
             throw new RuntimeException("validator == null, set validator");
@@ -50,5 +35,12 @@ public class TestUtils {
     public static void setValidator(Validator validator) {
         TestUtils.validator = validator;
     }
+
+    private static void logViolations(Set<ConstraintViolation<Object>> violations) {
+        violations.forEach(v -> {
+            logger.log(Level.INFO, v.toString() + "\n");
+        });
+    }
+
 
 }

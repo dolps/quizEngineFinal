@@ -17,30 +17,21 @@ import java.util.List;
  * Created by dolplads on 12/10/2016.
  * Represents a user
  */
-@NamedQueries({
-        @NamedQuery(name = User.FIND_BY_USERNAME, query = "select user from User user where userName=:userName"),
-        @NamedQuery(name = User.FIND_BY_CREDENTIALS,
-                query = "select u from User u where u.userName = :userName and u.passwordHash = :password")
-})
+
 @Getter
 @Setter
 @Entity
 public class User {
-    public static final String FIND_BY_USERNAME = "user_find_by_username";
-    public static final String FIND_BY_CREDENTIALS = "user_find_by_credentials";
-
     @Id
     @Pattern(regexp = "[A-Za-z0-9]{1,32}")
     @Column(unique = true, updatable = false) // !updateable == so we dont loose consistency in DB
     @Size(max = 25)
-    @NotEmpty
     private String userName;
 
     @Size(max = 125)
     @NotEmpty
     private String firstName;
 
-    @NotNull // TODO: 17/10/2016 check if necassary
     @Size(max = 125)
     private String middleName;
 
@@ -51,18 +42,18 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date registrationDate;
 
+    @Size(max = 125)
     @NotEmpty
     private String passwordHash;
 
+    @Size(max = 125)
     @NotEmpty
     private String salt;
 
     @OneToMany(mappedBy = "user")
-    //@ManyToMany(mappedBy = "user")
     private List<Post> posts;
 
     @OneToMany(mappedBy = "user")
-    //@ManyToMany(mappedBy = "user")
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "user")

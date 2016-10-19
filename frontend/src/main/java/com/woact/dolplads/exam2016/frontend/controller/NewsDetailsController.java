@@ -24,8 +24,9 @@ import java.util.logging.Level;
 
 /**
  * Created by dolplads on 18/10/2016.
+ * <p>
+ * Gives details on news
  */
-@Log
 @Named
 @SessionScoped
 public class NewsDetailsController implements Serializable {
@@ -51,7 +52,6 @@ public class NewsDetailsController implements Serializable {
         postEJB.moderateComment(sessionUser.getUserName(), commentId, moderate);
     }
 
-
     @PostConstruct
     public void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -60,7 +60,6 @@ public class NewsDetailsController implements Serializable {
         }
         if (newsId != null) {
             requestedPost = postEJB.findPost(Long.parseLong(newsId));
-            log.log(Level.INFO, "dauser:" + requestedPost.getUser().getUserName());
         }
 
         comment = new Comment(null, null);
@@ -74,7 +73,6 @@ public class NewsDetailsController implements Serializable {
         comment = new Comment(null, null);
 
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        log.log(Level.INFO, "viewID: " + viewId);
         return viewId + "?faces-redirect=true";
     }
 
@@ -91,19 +89,18 @@ public class NewsDetailsController implements Serializable {
         return listDataModel;
     }
 
-    private void setMyVote(User sessionUser, List<Comment> comments) {
-        comments.stream().map(Comment::getId)
-                .forEach(commentId -> {
-                    int val = postEJB.findVoteValueForComment(sessionUser.getUserName(), commentId);
-                    userVoteMap.put(commentId, val);
-                });
-    }
-
     public void voteListener(ValueChangeEvent event) {
-        int index = listDataModel.getRowIndex();
         Comment c = listDataModel.getRowData();
         String value = event.getNewValue().toString();
         postEJB.voteForComment(loginController.getSessionUser().getUserName(), c.getId(), Integer.parseInt(value));
+    }
+
+    private void setMyVote(User sessionUser, List<Comment> comments) {
+        comments.stream().map(Comment::getId)
+                .forEach(commentId -> {
+                    int val = postEJB.findVoteValueForPost(sessionUser.getUserName(), commentId);
+                    userVoteMap.put(commentId, val);
+                });
     }
 
     public void setListDataModel(ListDataModel<Comment> listDataModel) {

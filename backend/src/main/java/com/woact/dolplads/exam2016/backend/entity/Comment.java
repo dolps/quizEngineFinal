@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Setter
 public class Comment extends AbstractPost {
     private boolean moderated;
+    private final String moderatedText = "This coment has been moderated";
 
     public Comment() {
     }
@@ -28,7 +29,7 @@ public class Comment extends AbstractPost {
             return super.getText();
         }
 
-        return "This coment has been moderated";
+        return moderatedText;
     }
 
     public int getScore() {

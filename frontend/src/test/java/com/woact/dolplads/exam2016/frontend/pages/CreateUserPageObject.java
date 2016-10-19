@@ -1,7 +1,6 @@
 package com.woact.dolplads.exam2016.frontend.pages;
 
 import com.woact.dolplads.exam2016.backend.entity.User;
-import com.woact.dolplads.exam2016.backend.enums.CountryEnum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -38,12 +37,9 @@ public class CreateUserPageObject extends PageObject {
         getElement(form + "lastName").sendKeys(lastName);
         getElement(form + "save").click();
 
-
-        // TODO: 12/10/2016 fix this just for compiling now
-        //User u = new User(userName, firstName, lastName, new Address("street", "post", country));
         User u = new User(userName, firstName, middleName, lastName);
-
         u.setPasswordHash(confirmPassword);
+        u.setSalt("salt");
 
         return u;
     }

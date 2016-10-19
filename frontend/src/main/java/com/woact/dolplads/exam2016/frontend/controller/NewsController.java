@@ -25,9 +25,10 @@ import java.util.logging.Level;
 
 /**
  * Created by dolplads on 17/10/2016.
+ * <p>
+ * Controller for the News
  */
 
-@Log
 @SessionScoped
 @Named
 public class NewsController implements Serializable {
@@ -41,6 +42,14 @@ public class NewsController implements Serializable {
     private Map<Long, Integer> userVoteMap;
     private ListDataModel<Post> listDataModel;
 
+    @PostConstruct
+    public void doConstruct() {
+        post = new Post();
+        userVoteMap = new ConcurrentHashMap<>();
+        listDataModel = new ListDataModel<>();
+        sortValue = "time";
+    }
+
     public ListDataModel<Post> getListDataModel() {
         List<Post> posts = getPostsBySortValue();
 
@@ -52,20 +61,7 @@ public class NewsController implements Serializable {
         return listDataModel;
     }
 
-    public void setListDataModel(ListDataModel<Post> listDataModel) {
-        this.listDataModel = listDataModel;
-    }
-
-    @PostConstruct
-    public void doConstruct() {
-        post = new Post();
-        userVoteMap = new ConcurrentHashMap<>();
-        listDataModel = new ListDataModel<>();
-        sortValue = "time";
-    }
-
     public void voteListener(ValueChangeEvent event) {
-        int index = listDataModel.getRowIndex();
         Post p = listDataModel.getRowData();
         String value = event.getNewValue().toString();
         postEJB.voteForPost(loginController.getSessionUser().getUserName(), p.getId(), Integer.parseInt(value));
@@ -74,14 +70,15 @@ public class NewsController implements Serializable {
     public String doCreate() {
         User current = loginController.getSessionUser();
 
-        Post persisted = postEJB.createPost(current.getUserName(), post);
-
+        postEJB.createPost(current.getUserName(), post);
         post = new Post();
+
         return "home.jsf";
     }
 
     private List<Post> getPostsBySortValue() {
         List<Post> posts;
+
         if (sortValue != null) {
             if (sortValue.equals("time")) {
                 posts = postEJB.findAllPostsByTime();
@@ -99,7 +96,6 @@ public class NewsController implements Serializable {
                 .forEach(postId -> {
                     int val = postEJB.findVoteValueForPost(sessionUser.getUserName(), postId);
                     userVoteMap.put(postId, val);
-
                 });
     }
 
@@ -115,17 +111,19 @@ public class NewsController implements Serializable {
         return sortValue;
     }
 
+    public void setListDataModel(ListDataModel<Post> listDataModel) {
+        this.listDataModel = listDataModel;
+    }
+
     public void setSortValue(String sortValue) {
         this.sortValue = sortValue;
     }
 
     public Map<Long, Integer> getUserVoteMap() {
-        log.log(Level.INFO, "getting uservotemap");
         return userVoteMap;
     }
 
     public void setUserVoteMap(Map<Long, Integer> userVoteMap) {
-        log.log(Level.INFO, "setting uservotemap");
         this.userVoteMap = userVoteMap;
     }
 }
