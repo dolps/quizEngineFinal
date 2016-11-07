@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>exam2016</artifactId>
-        <groupId>com.woact.dolplads</groupId>
+        <artifactId>quiz</artifactId>
+        <groupId>com.javaee2.dolplads</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
@@ -15,7 +15,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.woact.dolplads</groupId>
+            <groupId>com.javaee2.dolplads</groupId>
             <artifactId>backend</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -91,9 +91,6 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
-                    <java-opts>
-                        -javaagent:${settings.localRepository}${fs}org${fs}jacoco${fs}org.jacoco.agent${fs}${version.jacoco}${fs}org.jacoco.agent-${version.jacoco}-runtime.jar=destfile=${basedir}${fs}target${fs}jacoco-it.exec
-                    </java-opts>
                 </configuration>
             </plugin>
         </plugins>

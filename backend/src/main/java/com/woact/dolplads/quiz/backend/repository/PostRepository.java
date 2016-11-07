@@ -1,11 +1,9 @@
-package com.woact.dolplads.exam2016.backend.repository;
+package com.woact.dolplads.quiz.backend.repository;
 
-import com.woact.dolplads.exam2016.backend.annotations.Repository;
-import com.woact.dolplads.exam2016.backend.entity.AbstractPost;
-import com.woact.dolplads.exam2016.backend.entity.Comment;
-import com.woact.dolplads.exam2016.backend.entity.Post;
+import com.woact.dolplads.quiz.backend.annotations.Repository;
+import com.woact.dolplads.quiz.backend.entity.Comment;
+import com.woact.dolplads.quiz.backend.entity.Post;
 
-import javax.ejb.Stateless;
 import java.util.List;
 
 /**

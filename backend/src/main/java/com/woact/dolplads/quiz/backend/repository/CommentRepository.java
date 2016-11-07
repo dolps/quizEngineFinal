@@ -1,9 +1,8 @@
-package com.woact.dolplads.exam2016.backend.repository;
+package com.woact.dolplads.quiz.backend.repository;
 
-import com.woact.dolplads.exam2016.backend.entity.Comment;
+import com.woact.dolplads.quiz.backend.entity.Comment;
 
 import javax.ejb.Stateless;
-import java.util.List;
 
 /**
  * Created by dolplads on 17/10/2016.

@@ -1,4 +1,4 @@
-package com.woact.dolplads.exam2016.backend.entity;
+package com.woact.dolplads.quiz.backend.entity;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
@@ -22,6 +22,7 @@ public class Post extends AbstractPost {
     public static final String POSTS_BY_CREATION_DATE = "post_by_creation_date";
     public static final String POSTS_BY_SCORE = "post_by_score";
     public static final String COMMENTS_BY_POST = "post_comment_by_post";
+
     @OneToMany
     private List<Comment> comments;
 

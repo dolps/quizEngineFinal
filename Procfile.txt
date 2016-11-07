@@ -1,0 +1,1 @@
+web: java -war frontend/target/pg5100_exam.war

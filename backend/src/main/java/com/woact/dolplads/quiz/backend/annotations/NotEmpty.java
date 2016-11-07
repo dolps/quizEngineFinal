@@ -1,4 +1,4 @@
-package com.woact.dolplads.exam2016.backend.annotations;
+package com.woact.dolplads.quiz.backend.annotations;
 
 import javax.validation.*;
 import javax.validation.constraints.NotNull;

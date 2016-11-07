@@ -1,10 +1,13 @@
-package com.woact.dolplads.exam2016.backend.service;
+package com.woact.dolplads.quiz.backend.service;
 
-import com.woact.dolplads.exam2016.backend.entity.*;
-import com.woact.dolplads.exam2016.backend.repository.CommentRepository;
-import com.woact.dolplads.exam2016.backend.repository.PostRepository;
-import com.woact.dolplads.exam2016.backend.repository.UserRepository;
-import com.woact.dolplads.exam2016.backend.repository.VoteRepository;
+import com.woact.dolplads.quiz.backend.repository.CommentRepository;
+import com.woact.dolplads.quiz.backend.repository.PostRepository;
+import com.woact.dolplads.quiz.backend.repository.UserRepository;
+import com.woact.dolplads.quiz.backend.repository.VoteRepository;
+import com.woact.dolplads.quiz.backend.entity.Comment;
+import com.woact.dolplads.quiz.backend.entity.Post;
+import com.woact.dolplads.quiz.backend.entity.User;
+import com.woact.dolplads.quiz.backend.entity.Vote;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

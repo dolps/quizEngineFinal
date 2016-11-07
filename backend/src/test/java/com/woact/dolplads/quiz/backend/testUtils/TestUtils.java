@@ -1,4 +1,4 @@
-package com.woact.dolplads.exam2016.backend.testUtils;
+package com.woact.dolplads.quiz.backend.testUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;

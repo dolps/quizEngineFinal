@@ -1,8 +1,7 @@
-package com.woact.dolplads.exam2016.backend.entity;
+package com.woact.dolplads.quiz.backend.entity;
 
-import com.woact.dolplads.exam2016.backend.annotations.NotEmpty;
+import com.woact.dolplads.quiz.backend.annotations.NotEmpty;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.*;

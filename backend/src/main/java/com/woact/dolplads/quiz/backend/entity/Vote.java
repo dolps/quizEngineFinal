@@ -1,4 +1,4 @@
-package com.woact.dolplads.exam2016.backend.entity;
+package com.woact.dolplads.quiz.backend.entity;
 
 import javax.persistence.*;
 

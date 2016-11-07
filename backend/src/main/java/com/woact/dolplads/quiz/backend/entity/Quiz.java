@@ -1,13 +1,11 @@
-package com.woact.dolplads.backend.model;
+package com.woact.dolplads.quiz.backend.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by dolplads on 26/10/2016.
@@ -21,19 +19,28 @@ public class Quiz {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
-    private Category category;
+    @ManyToOne
+    @JoinColumn
+    private SubCategory subsubCategory;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Question question;
 
-    public Quiz(Category subsubCategory, Question question) {
-        if (subsubCategory.getLevel() != 2) {
-            throw new IllegalArgumentException("not a level 2 category(sub-sub) level given: "
-                    + subsubCategory.getLevel());
-        }
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private AnswerSet answerSet;
 
-        this.category = subsubCategory;
+    public Quiz(SubCategory subsubCategory, Question question, AnswerSet answerSet) {
+        if (subsubCategory.getCategoryLevel() != 2) {
+            throw new IllegalArgumentException("not a level 2 category(sub-sub) level given: "
+                    + subsubCategory.getCategoryLevel());
+        }
+        this.subsubCategory = subsubCategory;
         this.question = question;
+        this.answerSet = answerSet;
+    }
+
+    //// TODO: 03/11/2016 refactor??
+    public boolean checkIfCorrect(int userAnswer) {
+        return answerSet.answers.get(userAnswer).isCorrect();
     }
 }
