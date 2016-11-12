@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>com.javaee2.dolplads</groupId>
-            <artifactId>frontend</artifactId>
+            <artifactId>rest</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
