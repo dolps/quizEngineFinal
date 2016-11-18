@@ -79,7 +79,7 @@ public interface QuizRestApi {
     @ApiOperation("find all quizzes")
     @GET
     @Path("quizzes")
-    List<Quiz> findQuizzes();
+    List<QuizDto> findQuizzes();
 
     @ApiOperation("create a quiz")
     @POST

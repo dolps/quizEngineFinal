@@ -9,6 +9,8 @@ import com.woact.dolplads.quiz.rest.backend.service.QuizService;
 import com.woact.dolplads.quiz.rest.contract.QuizRestApi;
 import com.woact.dolplads.quiz.rest.dto.CategoryConverter;
 import com.woact.dolplads.quiz.rest.dto.CategoryDto;
+import com.woact.dolplads.quiz.rest.dto.QuizConverter;
+import com.woact.dolplads.quiz.rest.dto.QuizDto;
 import io.swagger.annotations.ApiParam;
 
 import javax.ejb.EJB;
@@ -27,7 +29,6 @@ public class QuizResource implements QuizRestApi {
 
     @Override
     public List<CategoryDto> addDummies() {
-        List<CategoryDto> categories = new ArrayList<>();
         quizService.createCategory(new Category("this is text"));
         quizService.createCategory(new Category("this is text2"));
 
@@ -89,14 +90,29 @@ public class QuizResource implements QuizRestApi {
     }
 
     @Override
-    public List<Quiz> findQuizzes() {
-        return quizService.findAll();
+    public List<QuizDto> findQuizzes() {
+        return QuizConverter.transform(quizService.findAll());
+    }
+
+    @Override
+    public Long createQuiz(QuizDto quizDto) {
+        if (quizDto.id != null) {
+            throw new WebApplicationException("Cannot specify id for a newly generated quiz", 400);
+        }
+        Long id;
+        try {
+            Quiz created = quizService.createQuiz(new Quiz(quizDto.subsubCategory, quizDto.question, quizDto.answerSet));
+            id = created.getId();
+        } catch (Exception e) {
+            throw wrapException(e);
+        }
+
+        return id;
     }
 
 
     //----------------------------------------------------------
 
-    private WebApplicationException wrapException(Exception e) throws WebApplicationException {
 
         /*
             Errors:
@@ -104,6 +120,7 @@ public class QuizResource implements QuizRestApi {
             5xx: internal server error (eg, could be a bug in the code)
          */
 
+    private WebApplicationException wrapException(Exception e) throws WebApplicationException {
         Throwable cause = Throwables.getRootCause(e);
         if (cause instanceof ConstraintViolationException) {
             return new WebApplicationException("Invalid constraints on input: " + cause.getMessage(), 400);

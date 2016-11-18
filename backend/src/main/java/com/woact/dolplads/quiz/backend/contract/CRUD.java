@@ -1,4 +1,4 @@
-package com.woact.dolplads.quiz.rest.backend.repository;
+package com.woact.dolplads.quiz.backend.repository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -14,6 +14,8 @@ public interface CRUD<E, T> {
     T findById(@NotNull E id);
 
     void remove(@NotNull T entity);
+
+    T update(@NotNull T entity);
 
     List<T> findAll();
 }
