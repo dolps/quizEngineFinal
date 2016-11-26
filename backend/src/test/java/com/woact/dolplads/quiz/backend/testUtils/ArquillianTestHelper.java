@@ -1,4 +1,4 @@
-package com.woact.dolplads.quiz.rest.backend.testUtils;
+package com.woact.dolplads.quiz.backend.testUtils;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;

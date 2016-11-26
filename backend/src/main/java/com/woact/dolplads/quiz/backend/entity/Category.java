@@ -1,8 +1,6 @@
 package com.woact.dolplads.quiz.backend.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 
@@ -13,9 +11,9 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode(callSuper = true)
 public class Category extends SuperCategory {
-    private int categoryLevel;
-
     public Category(String categoryText) {
         super(categoryText);
     }

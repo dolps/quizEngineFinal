@@ -1,4 +1,4 @@
-package com.woact.dolplads.quiz.rest.backend.entity;
+package com.woact.dolplads.quiz.backend.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,14 +14,10 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Entity
+@Embeddable
 @NoArgsConstructor
 public class AnswerSet {
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @ElementCollection
     List<Answer> answers;
 
     public AnswerSet(Answer a1, Answer a2, Answer a3, Answer a4) {

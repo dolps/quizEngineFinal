@@ -1,11 +1,10 @@
-package com.woact.dolplads.quiz.rest.backend.entity;
+package com.woact.dolplads.quiz.backend.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by dolplads on 26/10/2016.
@@ -13,15 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
+@Embeddable
 public class Question {
-    @Id
-    @GeneratedValue
-    private Long id;
+    private String questionTxt;
 
-    private String question;
-
-    public Question(String question) {
-        this.question = question;
+    public Question(String questionTxt) {
+        this.questionTxt = questionTxt;
     }
 }

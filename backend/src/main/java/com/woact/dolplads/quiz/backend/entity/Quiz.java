@@ -1,9 +1,10 @@
-package com.woact.dolplads.quiz.rest.backend.entity;
+package com.woact.dolplads.quiz.backend.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.inject.Named;
 import javax.persistence.*;
 
 /**
@@ -17,29 +18,16 @@ public class Quiz {
     @Id
     @GeneratedValue
     private Long id;
-
-    @ManyToOne
-    @JoinColumn
-    private SubCategory subsubCategory;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @Embedded
     private Question question;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Embedded
     private AnswerSet answerSet;
+    @OneToOne(mappedBy = "quiz")
+    private SubSubCategory subSubCategory;
 
-    public Quiz(SubCategory subsubCategory, Question question, AnswerSet answerSet) {
-        if (subsubCategory.getCategoryLevel() != 2) {
-            throw new IllegalArgumentException("not a level 2 category(sub-sub) level given: "
-                    + subsubCategory.getCategoryLevel());
-        }
-        this.subsubCategory = subsubCategory;
+    public Quiz(Question question, AnswerSet answerSet, SubSubCategory subsubCategory) {
         this.question = question;
         this.answerSet = answerSet;
-    }
-
-    //// TODO: 03/11/2016 refactor??
-    public boolean checkIfCorrect(int userAnswer) {
-        return answerSet.answers.get(userAnswer).isCorrect();
+        this.subSubCategory = subsubCategory;
     }
 }

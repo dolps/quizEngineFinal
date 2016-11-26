@@ -1,4 +1,4 @@
-package com.woact.dolplads.quiz.backend.repository;
+package com.woact.dolplads.quiz.backend.contract;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

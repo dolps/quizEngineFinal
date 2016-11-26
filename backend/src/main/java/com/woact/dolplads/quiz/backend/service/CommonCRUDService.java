@@ -9,11 +9,11 @@ import java.util.List;
  * Created by dolplads on 15/11/2016.
  */
 @NoArgsConstructor
-abstract class CRUDService<E, T> implements CRUD<E, T> {
+abstract class CommonCRUDService<E, T> implements CRUD<E, T> {
 
     private CRUD<E, T> repository;
 
-    CRUDService(CRUD<E, T> repo) {
+    CommonCRUDService(CRUD<E, T> repo) {
         this.repository = repo;
     }
 

@@ -25,6 +25,11 @@ public class QuizServiceTest extends ArquillianTestHelper {
     @Before
     @After
     public void prepareDB() throws Exception {
-        
+        System.out.println("initalize");
+    }
+
+    @Test
+    public void testDoSomething() throws Exception {
+        assertTrue(1 == 1);
     }
 }

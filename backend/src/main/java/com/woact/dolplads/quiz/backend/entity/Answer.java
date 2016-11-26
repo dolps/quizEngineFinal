@@ -1,8 +1,9 @@
-package com.woact.dolplads.quiz.rest.backend.entity;
+package com.woact.dolplads.quiz.backend.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,14 +11,10 @@ import javax.persistence.Id;
 /**
  * Created by dolplads on 03/11/2016.
  */
-@Entity
 @Getter
 @Setter
+@Embeddable
 public class Answer {
-    @Id
-    @GeneratedValue
-    private Long id;
-
     private boolean isCorrect;
     private String answerText;
 

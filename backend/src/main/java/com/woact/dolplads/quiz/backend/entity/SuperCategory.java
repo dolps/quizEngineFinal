@@ -1,5 +1,6 @@
-package com.woact.dolplads.quiz.rest.backend.entity;
+package com.woact.dolplads.quiz.backend.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
+@EqualsAndHashCode
 public abstract class SuperCategory {
     @Id
     @GeneratedValue

@@ -1,44 +1,45 @@
-package com.woact.dolplads.quiz.rest.backend.service;
+package com.woact.dolplads.quiz.backend.service;
 
-import com.woact.dolplads.quiz.rest.backend.entity.Category;
-import com.woact.dolplads.quiz.rest.backend.repository.CRUD;
-import com.woact.dolplads.quiz.rest.backend.repository.CategoryRepository;
+import com.woact.dolplads.quiz.backend.entity.Category;
+import com.woact.dolplads.quiz.backend.entity.SubCategory;
+import com.woact.dolplads.quiz.backend.entity.SubSubCategory;
+import com.woact.dolplads.quiz.backend.repository.CategoryRepository;
+import com.woact.dolplads.quiz.backend.repository.SubCategoryRepository;
+import com.woact.dolplads.quiz.backend.repository.SubSubCategoryRepository;
+import lombok.NoArgsConstructor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
  * Created by dolplads on 14/11/2016.
  */
 @Stateless
-public class CategoryService implements CRUD<Long, Category> {
-    @Inject
+@NoArgsConstructor
+public class CategoryService extends CommonCRUDService<Long, Category> {
     private CategoryRepository categoryRepository;
+    private SubSubCategoryRepository subSubCategoryRepository;
+    private SubCategoryRepository subCategoryRepository;
 
-    @Override
-    public Category save(Category category) {
-        return categoryRepository.save(category);
+    @Inject
+    public CategoryService(CategoryRepository categoryRepository, SubCategoryRepository subCategoryRepository, SubSubCategoryRepository subsubCategoryRepository) {
+        super(categoryRepository);
+        this.categoryRepository = categoryRepository;
+        this.subCategoryRepository = subCategoryRepository;
+        this.subSubCategoryRepository = subsubCategoryRepository;
     }
 
-    @Override
-    public Category findById(Long id) {
-        return categoryRepository.findById(id);
+    public List<Category> findAllWithAtLeastOneSubCategoryWithAtLeastOneSubSubCategoryWithAtLeastOneQuiz() {
+        return categoryRepository.findAllWithAtLeastOneSubCategoryWithAtLeastOnSubSubCategoryWithAtLeastOneQuiz();
     }
 
-    @Override
-    public void remove(Category entity) {
-        categoryRepository.remove(entity);
+    //// TODO: 25/11/2016 maybe move to subsubcategoryservice?
+    public List<SubSubCategory> findAllSubSubCategoriesWithAtLeastOneQuiz() {
+        return subSubCategoryRepository.findAllSubSubCategoriesWithAtLeastOneQuiz();
     }
 
-    @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
-    }
-
-    @Override
-    public Category update(Category category) {
-        return categoryRepository.update(category);
+    public List<SubCategory> findAllSubCategoriesByParentCategory(Long parentId) {
+        return subCategoryRepository.findAllByParentId(parentId);
     }
 }

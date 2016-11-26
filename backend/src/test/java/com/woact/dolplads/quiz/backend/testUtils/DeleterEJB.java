@@ -1,4 +1,4 @@
-package com.woact.dolplads.quiz.rest.backend.testUtils;
+package com.woact.dolplads.quiz.backend.testUtils;
 
 
 import javax.ejb.Stateless;
