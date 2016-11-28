@@ -28,7 +28,7 @@ public class HelloWorldResource {
 
     @GET
     @Timed
-    public Saying sayHello(@QueryParam("name") String name) {
-        return new Saying(counter.incrementAndGet(), name);
+    public Saying sayHello() {
+        return new Saying(counter.incrementAndGet(), "halla");
     }
 }

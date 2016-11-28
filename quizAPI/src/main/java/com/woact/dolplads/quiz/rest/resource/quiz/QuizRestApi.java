@@ -16,7 +16,7 @@ import java.util.List;
 @Path("/quizzes")
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 @Consumes(MediaType.APPLICATION_JSON)
-public interface QuizRestApi extends CrudRestApi {
+public interface QuizRestApi {
     String ID_PARAM = "numeric id of quiz";
 
     @GET

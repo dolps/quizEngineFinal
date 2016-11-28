@@ -5,6 +5,7 @@ import com.javaee2.dolplads.GameConfiguration;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
 import io.dropwizard.setup.Environment;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Matchers.isA;
@@ -12,10 +13,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
 /**
  * Created by dolplads on 25/11/2016.
  */
 public class HelloWorldResourceTest {
+
 
     private final Environment environment = mock(Environment.class);
     private final JerseyEnvironment jersey = mock(JerseyEnvironment.class);
@@ -27,6 +30,7 @@ public class HelloWorldResourceTest {
         when(environment.jersey()).thenReturn(jersey);
     }
 
+    @Ignore
     @Test
     public void buildsAThingResource() throws Exception {
         application.run(config, environment);
