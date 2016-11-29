@@ -15,7 +15,7 @@ public class GameDAO extends AbstractDAO<Game> {
         super(sessionFactory);
     }
 
-    public Game findById(int id) {
+    public Game findById(Long id) {
         return get(id);
     }
 
@@ -25,5 +25,9 @@ public class GameDAO extends AbstractDAO<Game> {
 
     public List<Game> findAll() {
         return super.list(criteria());
+    }
+
+    public void remove(Long id) {
+        currentSession().delete(id);
     }
 }

@@ -25,8 +25,7 @@
             <type>war</type>
         </dependency>
     </dependencies>
-
-
+    
     <build>
         <plugins>
             <plugin>

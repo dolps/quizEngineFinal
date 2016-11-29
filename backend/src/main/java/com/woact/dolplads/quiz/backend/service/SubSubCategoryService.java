@@ -17,7 +17,6 @@ import javax.inject.Inject;
 public class SubSubCategoryService extends CommonCRUDService<Long, SubSubCategory> {
     private SubSubCategoryRepository subSubCategoryRepository;
 
-
     @Inject
     public SubSubCategoryService(SubSubCategoryRepository subSubCategoryRepository) {
         super(subSubCategoryRepository);

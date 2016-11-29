@@ -11,7 +11,7 @@ import lombok.ToString;
 @ApiModel("Category")
 @ToString
 public class CategoryDto {
-    @ApiModelProperty("The id of the category")
+    @ApiModelProperty(value = "The id of the category")
     public Long id;
 
     @ApiModelProperty("The text of the category")

@@ -1,10 +1,10 @@
 package com.woact.dolplads.quiz.backend.service;
 
-import com.woact.dolplads.quiz.backend.entity.Category;
 import com.woact.dolplads.quiz.backend.testUtils.ArquillianTestHelper;
 import com.woact.dolplads.quiz.backend.testUtils.DeleterEJB;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.ejb.EJB;
@@ -33,7 +33,7 @@ public class CategoryServiceTest extends ArquillianTestHelper {
 
     @Test
     public void save() throws Exception {
-        assertTrue(1 == 1);
+
     }
 
     @Test

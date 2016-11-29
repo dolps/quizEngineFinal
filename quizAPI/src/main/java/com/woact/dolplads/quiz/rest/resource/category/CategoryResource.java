@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiParam;
 
 import javax.ejb.EJB;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -18,7 +20,6 @@ import java.util.Objects;
 /**
  * Created by dolplads on 14/11/2016.
  */
-@Path("/categories")
 public class CategoryResource implements CategoryRestApi {
     @EJB
     private CategoryService categoryService;
@@ -68,7 +69,15 @@ public class CategoryResource implements CategoryRestApi {
     }
 
     @Override
+    public String update2() {
+        String hei = "hei";
+        System.out.println(hei);
+        return hei;
+    }
+
+    @Override
     public void update(Long id, CategoryDto categoryDto) {
+        System.out.println("halla: " + categoryDto.id);
         if (!Objects.equals(id, categoryDto.id)) {
             throw new WebApplicationException("Not allowed to change the id of the resource", 409); // 409 (Conflict)
         }
@@ -112,7 +121,6 @@ public class CategoryResource implements CategoryRestApi {
                 .build();
     }
 
-
     @Override
     public List<SubSubCategoryDto> getSubSubCategoriesAssociatedWithQuiz() {
         return SubSubCategoryConverter.transform(categoryService.findAllSubSubCategoriesWithAtLeastOneQuiz());
@@ -124,13 +132,6 @@ public class CategoryResource implements CategoryRestApi {
     }
 
     private WebApplicationException wrapException(Exception e) throws WebApplicationException {
-
-        /*
-            Errors:
-            4xx: the user has done something wrong, eg asking for something that does not exist (404)
-            5xx: internal server error (eg, could be a bug in the code)
-         */
-
         Throwable cause = Throwables.getRootCause(e);
         if (cause instanceof ConstraintViolationException) {
             return new WebApplicationException("Invalid constraints on input: " + cause.getMessage(), 400);

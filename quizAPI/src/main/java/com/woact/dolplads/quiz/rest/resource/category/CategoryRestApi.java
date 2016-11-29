@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,6 +18,7 @@ import java.util.List;
  * Created by dolplads on 14/11/2016.
  */
 // todo: add patch method
+@Path("/categories")
 @Api(value = "/categories", description = "CRUD action for categories")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -43,6 +45,10 @@ public interface CategoryRestApi {
     @GET
     @Path("/{id}")
     CategoryDto getById(@ApiParam(ID_PARAM) @PathParam("id") Long id);
+
+    @GET
+    @Path("x")
+    public String update2();
 
     @PUT
     @Path("id/{id}")

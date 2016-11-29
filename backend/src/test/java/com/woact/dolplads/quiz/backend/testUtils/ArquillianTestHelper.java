@@ -17,7 +17,7 @@ public abstract class ArquillianTestHelper {
     @Deployment
     public static JavaArchive createDeployment() {
         JavaArchive war = ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, "com.woact.dolplads.quiz")
+                .addPackages(true, "com.woact.dolplads.quiz.backend")
                 .addAsResource("META-INF/persistence.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 

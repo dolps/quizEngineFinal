@@ -14,14 +14,15 @@
 
 
     <dependencies>
-
-
+        <dependency>
+            <groupId>com.javaee2.dolplads</groupId>
+            <artifactId>utils</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.javaee2.dolplads</groupId>
             <artifactId>backend</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
@@ -53,10 +54,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
@@ -67,6 +64,7 @@
     </dependencies>
 
     <build>
+
         <plugins>
 
             <!-- make sure we calculate code coverage -->
@@ -84,10 +82,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-            </plugin>
 
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -97,7 +91,6 @@
                     <java-opts>
                         -javaagent:${settings.localRepository}${fs}org${fs}jacoco${fs}org.jacoco.agent${fs}${version.jacoco}${fs}org.jacoco.agent-${version.jacoco}-runtime.jar=destfile=${basedir}${fs}target${fs}jacoco-it.exec
                     </java-opts>
-
                 </configuration>
             </plugin>
         </plugins>

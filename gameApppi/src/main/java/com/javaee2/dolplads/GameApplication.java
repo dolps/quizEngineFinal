@@ -1,13 +1,9 @@
 package com.javaee2.dolplads;
 
-import com.javaee2.dolplads.core.Game;
 import com.javaee2.dolplads.client.QuizServiceResource;
 import com.javaee2.dolplads.db.GameDAO;
 import com.javaee2.dolplads.health.TemplateHealthCheck;
 import com.javaee2.dolplads.resources.GameResource;
-import com.javaee2.dolplads.resources.HelloWorldResource;
-import com.woact.dolplads.quiz.backend.entity.Quiz;
-import com.woact.dolplads.quiz.backend.entity.SubSubCategory;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.client.JerseyClientBuilder;
@@ -16,6 +12,8 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.ScanningHibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.swagger.jaxrs.config.BeanConfig;
+import io.swagger.jaxrs.listing.ApiListingResource;
 
 
 import javax.ws.rs.client.Client;
@@ -40,30 +38,48 @@ public class GameApplication extends Application<GameConfiguration> {
 
     @Override
     public void initialize(final Bootstrap<GameConfiguration> bootstrap) {
-        // TODO: application initialization
-        bootstrap.addBundle(new AssetsBundle());
         bootstrap.addBundle(hibernate);
+
+        bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html", "static"));
+        bootstrap.addBundle(new AssetsBundle("/assets/css", "/css", null, "b"));
+        bootstrap.addBundle(new AssetsBundle("/assets/fonts", "/fonts", null, "c"));
+        bootstrap.addBundle(new AssetsBundle("/assets/images", "/images", null, "d"));
+        bootstrap.addBundle(new AssetsBundle("/assets/lang", "/lang", null, "e"));
+        bootstrap.addBundle(new AssetsBundle("/assets/lib", "/lib", null, "f"));
+        bootstrap.addBundle(new AssetsBundle("/assets", "/swagger-ui.js", "swagger-ui.js", "static2"));
     }
 
     @Override
     public void run(final GameConfiguration configuration,
                     final Environment environment) throws Exception {
-        final HelloWorldResource res = new HelloWorldResource(configuration.getTemplate(), configuration.getDefaultName());
-        final GameResource gameResource = new GameResource();
-        final TemplateHealthCheck healthCheck =
-                new TemplateHealthCheck(configuration.getTemplate());
-        environment.healthChecks().register("template", healthCheck);
-        environment.jersey().register(res);
-        environment.jersey().register(gameResource);
 
+        final GameResource gameResource = new GameResource();
+        final TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getTemplate());
+        environment.healthChecks().register("template", healthCheck);
+        environment.jersey().register(gameResource);
 
         final Client client = new JerseyClientBuilder(environment)
                 .using(configuration.getJerseyClientConfiguration())
                 .build(getName());
 
-        final GameDAO dao = new GameDAO(hibernate.getSessionFactory());
+        final GameDAO gameDAO = new GameDAO(hibernate.getSessionFactory());
+        environment.jersey().register(new QuizServiceResource(client, gameDAO));
 
-        environment.jersey().register(new QuizServiceResource(client, dao));
+
+        setupSwagger(environment);
+    }
+
+    private void setupSwagger(Environment environment) {
+        environment.jersey().register(new ApiListingResource());
+        BeanConfig beanConfig = new BeanConfig();
+        beanConfig.setVersion("0.0.1");
+        beanConfig.setSchemes(new String[]{"http"});
+        beanConfig.setHost("localhost:9000");
+        beanConfig.setBasePath("/api");
+        beanConfig.setResourcePackage("com.javaee2.dolplads.client");
+        beanConfig.setScan(true);
+        environment.jersey().register(new ApiListingResource());
+        environment.jersey().register(new io.swagger.jaxrs.listing.SwaggerSerializers());
     }
 
 }

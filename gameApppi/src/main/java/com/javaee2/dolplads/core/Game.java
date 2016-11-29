@@ -13,6 +13,7 @@ import java.util.List;
 //@Table(name = "GAME")
 @Entity
 public class Game {
+
     @Id
     @GeneratedValue
     private Long id;
